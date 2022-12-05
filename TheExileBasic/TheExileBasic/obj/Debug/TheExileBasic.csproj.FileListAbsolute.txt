@@ -1,0 +1,8 @@
+D:\Nerd shit\C#\Projects\The Exile\TheExileBasic\TheExileBasic\bin\Debug\TheExileBasic.exe.config
+D:\Nerd shit\C#\Projects\The Exile\TheExileBasic\TheExileBasic\bin\Debug\TheExileBasic.exe
+D:\Nerd shit\C#\Projects\The Exile\TheExileBasic\TheExileBasic\bin\Debug\TheExileBasic.pdb
+D:\Nerd shit\C#\Projects\The Exile\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.csproj.AssemblyReference.cache
+D:\Nerd shit\C#\Projects\The Exile\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.csproj.SuggestedBindingRedirects.cache
+D:\Nerd shit\C#\Projects\The Exile\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.csproj.CoreCompileInputs.cache
+D:\Nerd shit\C#\Projects\The Exile\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.exe
+D:\Nerd shit\C#\Projects\The Exile\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.pdb
