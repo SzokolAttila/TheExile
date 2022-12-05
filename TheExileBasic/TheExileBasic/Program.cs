@@ -170,6 +170,7 @@ namespace TheExileBasic
         {
             this.HP = hp;
             this.AP = ap;
+            this.XP = xp;
             this.Name = name;
             this.Pos = pos;
             this.IsKilled = isKilled;

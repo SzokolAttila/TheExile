@@ -6,3 +6,11 @@ D:\Nerd shit\C#\Projects\The Exile\TheExileBasic\TheExileBasic\obj\Debug\TheExil
 D:\Nerd shit\C#\Projects\The Exile\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.csproj.CoreCompileInputs.cache
 D:\Nerd shit\C#\Projects\The Exile\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.exe
 D:\Nerd shit\C#\Projects\The Exile\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.pdb
+C:\Users\Szokol Attila\Documents\GitHub\TheExile\TheExileBasic\TheExileBasic\bin\Debug\TheExileBasic.exe.config
+C:\Users\Szokol Attila\Documents\GitHub\TheExile\TheExileBasic\TheExileBasic\bin\Debug\TheExileBasic.exe
+C:\Users\Szokol Attila\Documents\GitHub\TheExile\TheExileBasic\TheExileBasic\bin\Debug\TheExileBasic.pdb
+C:\Users\Szokol Attila\Documents\GitHub\TheExile\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.csproj.AssemblyReference.cache
+C:\Users\Szokol Attila\Documents\GitHub\TheExile\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.csproj.SuggestedBindingRedirects.cache
+C:\Users\Szokol Attila\Documents\GitHub\TheExile\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.csproj.CoreCompileInputs.cache
+C:\Users\Szokol Attila\Documents\GitHub\TheExile\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.exe
+C:\Users\Szokol Attila\Documents\GitHub\TheExile\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.pdb
