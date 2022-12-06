@@ -18,8 +18,13 @@ namespace TheExileBasic
         public string Rarity { get; set; }
         public string Desc { get; set; }
         public int[] Pos { get; set; }
-
         public bool IsObtained { get; set; }
+
+        public string[,] Place(string[,] room)
+        {
+            room[this.Pos[0], this.Pos[1]] = "*";
+            return room;
+        }
         public Item(string type, string name, string rarity, string desc, int[] pos, bool isObtained = false, int attack = 0, int hp = 0)
         {
             this.Type = type;
@@ -77,7 +82,7 @@ namespace TheExileBasic
                     break;
             }
 
-            Thread.Sleep(5);
+            Thread.Sleep(1);
             this.Temp = room[this.Pos[0], this.Pos[1]];
             room[this.Pos[0], this.Pos[1]] = "X";
             Console.Clear();
@@ -175,7 +180,11 @@ namespace TheExileBasic
             this.Pos = pos;
             this.IsKilled = isKilled;
         }
-
+        public string[,] Place(string[,] room)
+        {
+            room[this.Pos[0], this.Pos[1]] = "!";
+            return room;
+        }
         public int[] Combat(int fighterHp, int fighterAttack)
         {
             int currentHP = this.HP;
@@ -233,12 +242,12 @@ namespace TheExileBasic
             int[] startPos = Array.ConvertAll(sr.ReadLine().Split(' '), int.Parse);
 
             Fighter fighter = new Fighter(3, startPos, 100, 1000);
-            Item dagger = new Item("Dagger", "Dagger", "Common", "A dull-edged dagger", new int[] {13, 43}, attack: 24);
-            Enemy ent = new Enemy(400, 60, "Ent", 100, new int[] {13, 14});
+            Item dagger = new Item("Dagger", "Dagger", "Common", "A dull-edged dagger", new int[] {9, 39}, attack: 24);
+            Enemy ent = new Enemy(400, 60, "Ent", 100, new int[] {13, 47});
 
             string[,] room = new string[matrix[0], matrix[1]];
             string[] text = sr.ReadToEnd().Split('\n');
-
+            
             for (int i = 0; i < matrix[0]; i++)
             {
                 string temp = text[i].Replace("\r", "");
@@ -252,6 +261,8 @@ namespace TheExileBasic
 
             fighter.Temp = room[fighter.Pos[0], fighter.Pos[1]];
             room[fighter.Pos[0], fighter.Pos[1]] = "X";
+            dagger.Place(room);
+            ent.Place(room);
 
             string input = "";
             do
