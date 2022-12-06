@@ -113,7 +113,10 @@ namespace TheExileBasic
                                 Console.ForegroundColor = ConsoleColor.DarkRed;
                                 break;
                             case "*":
-                                Console.ForegroundColor = ConsoleColor.Blue;
+                                Console.ForegroundColor = ConsoleColor.Cyan;
+                                break;
+                            case "~":
+                                Console.ForegroundColor = ConsoleColor.DarkBlue;
                                 break;
                             default:
                                 Console.ForegroundColor = ConsoleColor.White;
@@ -149,7 +152,10 @@ namespace TheExileBasic
                             Console.ForegroundColor = ConsoleColor.DarkRed;
                             break;
                         case "*":
-                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                            break;
+                        case "~":
+                            Console.ForegroundColor = ConsoleColor.DarkBlue;
                             break;
                         default:
                             Console.ForegroundColor = ConsoleColor.White;
