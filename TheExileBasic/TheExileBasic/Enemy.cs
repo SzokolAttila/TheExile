@@ -46,6 +46,12 @@ namespace TheExileBasic
         {
             fighter.Fought = true;
             int currentHP = this.HP;
+            int wait = 0;
+
+            if (fighter.HP/this.AP>this.HP/fighter.Attack)
+                wait = 5000 / (this.HP / fighter.Attack);
+            else wait = 5000 / (fighter.HP / this.AP);
+
             while (true)
             {
                 Console.Clear();
@@ -64,7 +70,7 @@ namespace TheExileBasic
                     Console.ReadKey();
                     return new int[] { fighter.HP, this.XP };
                 }
-                Thread.Sleep(1000);
+                Thread.Sleep(wait);
                 Console.Clear();
                 Console.WriteLine("The Exile\n");
                 Console.WriteLine("Now it's time to fight!");
@@ -81,7 +87,7 @@ namespace TheExileBasic
                     Console.ReadKey();
                     return new int[] { fighter.HP, 0 };
                 }
-                Thread.Sleep(1000);
+                Thread.Sleep(wait);
             }
 
             Console.WriteLine("Press any key to end this scene:");

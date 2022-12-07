@@ -19,10 +19,12 @@ namespace TheExileBasic
         public int MaxHP { get; set; }
         public int XP { get; set; }
         public bool Fought { get; set; }
+        public bool Moved { get; set; }
 
         public Fighter(int range, int[] pos, int attack, int hp, int xp = 0)
         {
             this.Fought = false;
+            this.Moved = true;
             this.Inventory = new List<Item>();
             this.Names = new List<string>();
             this.Range = range;
@@ -36,6 +38,8 @@ namespace TheExileBasic
         public string[,] Move(string direction, string[,] room)
         {
             room[this.Pos[0], this.Pos[1]] = this.Temp;
+            int[] startPos = new int[] { this.Pos[0], this.Pos[1] };
+            this.Moved = false;
 
             switch (direction)
             {
@@ -58,19 +62,24 @@ namespace TheExileBasic
                 default:
                     break;
             }
+            int[] currentPos = new int[] { this.Pos[0], this.Pos[1] };
 
-            Thread.Sleep(1);
-            if (room[this.Pos[0], this.Pos[1]] == "~")
+            if (startPos[0] != currentPos[0] || startPos[1] != currentPos[1])
             {
-                this.Temp = room[this.Pos[0], this.Pos[1]];
-                room[this.Pos[0], this.Pos[1]] = "B";
+                this.Moved = true;
+                Thread.Sleep(1);
+                if (room[this.Pos[0], this.Pos[1]] == "~")
+                {
+                    this.Temp = room[this.Pos[0], this.Pos[1]];
+                    room[this.Pos[0], this.Pos[1]] = "B";
+                }
+                else
+                {
+                    this.Temp = room[this.Pos[0], this.Pos[1]];
+                    room[this.Pos[0], this.Pos[1]] = "X";
+                }
+                Console.Clear();
             }
-            else
-            {
-                this.Temp = room[this.Pos[0], this.Pos[1]];
-                room[this.Pos[0], this.Pos[1]] = "X";
-            }
-            Console.Clear();
 
             return room;
         }
