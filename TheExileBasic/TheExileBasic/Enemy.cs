@@ -29,24 +29,66 @@ namespace TheExileBasic
         {
             for (int i = 0; i < Enemies.Count; i++)
             {
-                if ((fighter.Pos[0] == Enemies[i].Pos[0] && fighter.Pos[1] - 1 == Enemies[i].Pos[1]) || (fighter.Pos[0] == Enemies[i].Pos[0] && fighter.Pos[1] + 1 == Enemies[i].Pos[1]) || (fighter.Pos[0] - 1 == Enemies[i].Pos[0] && fighter.Pos[1] == Enemies[i].Pos[1]) || (fighter.Pos[0] + 1 == Enemies[i].Pos[0] && fighter.Pos[1] == Enemies[i].Pos[1]))
-                    Console.WriteLine("\nYou found yourself in front of a(n) " + Enemies[i].Name + " with " + Enemies[i].HP + " Health Points and " + Enemies[i].AP + " Attack Points.\nStep on the same field for combat.");
-                else if (fighter.Pos[0] == Enemies[i].Pos[0] && fighter.Pos[1] == Enemies[i].Pos[1])
+                if (fighter.Pos[0] == Enemies[i].Pos[0] && fighter.Pos[1] == Enemies[i].Pos[1])
+                {
+                    Console.Write("\nYou found yourself in front of a(n) ");
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.Write(Enemies[i].Name);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(" with ");
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.Write(Enemies[i].HP);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(" Health Points and ");
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write(Enemies[i].AP);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(" Attack Points.\nPress ");
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.Write("E");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(" for combat.");
+                }
+            }
+        }
+
+        public static void StartCombat(Fighter fighter)
+        {
+            for (int i = 0; i < Enemies.Count; i++)
+            {
+                if (fighter.Pos[0] == Enemies[i].Pos[0] && fighter.Pos[1] == Enemies[i].Pos[1])
                 {
                     int[] result = Enemies[i].Combat(fighter);
                     fighter.HP = result[0];
                     fighter.XP += result[1];
                     fighter.Temp = "0";
                     Enemies.Remove(Enemies[i]);
+
+                    Console.WriteLine("Press any key to end this scene: \n");
+                    Console.ReadKey(true);
+
                     Console.Clear();
+
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine("The Exile\n");
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    Console.Write("Press ");
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.Write("H");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(" for help\n\n");
+
+                    fighter.Room[fighter.Pos[0], fighter.Pos[1]] = "X";
+                    fighter.View(fighter.Room);
+
                 }
             }
         }
         public int[] Combat(Fighter fighter)
         {
-            fighter.Fought = true;
             int currentHP = this.HP;
-            int wait = 0;
+            int wait;
 
             if (fighter.HP/this.AP>this.HP/fighter.Attack)
                 wait = 5000 / (this.HP / fighter.Attack);
@@ -55,7 +97,10 @@ namespace TheExileBasic
             while (true)
             {
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine("The Exile\n");
+                Console.ForegroundColor = ConsoleColor.White;
+
                 Console.WriteLine("Now it's time to fight!");
                 Console.WriteLine(this.Name + "\t\t\t\t" + "Your stats:\n" + currentHP + "/" + this.HP + "\t\t\t\t" + "Attack: " + fighter.Attack + "\n\t\t\t\t" + "HP: " + fighter.HP);
                 Console.WriteLine("It's your turn");
@@ -63,16 +108,22 @@ namespace TheExileBasic
                 if (currentHP <= 0)
                 {
                     Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.WriteLine("The Exile\n");
+                    Console.ForegroundColor = ConsoleColor.White;
+
                     Console.WriteLine("Now it's time to fight!");
                     Console.WriteLine(this.Name + "\t\t\t\t" + "Your stats:\n" + currentHP + "/" + this.HP + "\t\t\t\t" + "Attack: " + fighter.Attack + "\n\t\t\t\t" + "HP: " + fighter.HP);
-                    Console.WriteLine("You have won!\nPress any key to end this scene:");
-                    Console.ReadKey();
+                    Console.WriteLine("You have won!");
+                    
                     return new int[] { fighter.HP, this.XP };
                 }
                 Thread.Sleep(wait);
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine("The Exile\n");
+                Console.ForegroundColor = ConsoleColor.White;
+
                 Console.WriteLine("Now it's time to fight!");
                 Console.WriteLine(this.Name + "\t\t\t\t" + "Your stats:\n" + currentHP + "/" + this.HP + "\t\t\t\t" + "Attack: " + fighter.Attack + "\n\t\t\t\t" + "HP: " + fighter.HP);
                 Console.WriteLine("It's the enemy's turn");
@@ -80,19 +131,18 @@ namespace TheExileBasic
                 if (fighter.HP <= 0)
                 {
                     Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.WriteLine("The Exile\n");
+                    Console.ForegroundColor = ConsoleColor.White;
+
                     Console.WriteLine("Now it's time to fight!");
                     Console.WriteLine(this.Name + "\t\t\t\t" + "Your stats:\n" + currentHP + "/" + this.HP + "\t\t\t\t" + "Attack: " + fighter.Attack + "\n\t\t\t\t" + "HP: " + fighter.HP);
-                    Console.WriteLine("You have lost!\nPress any key to end this scene:");
-                    Console.ReadKey();
+                    Console.WriteLine("You have lost!");
+                    
                     return new int[] { fighter.HP, 0 };
                 }
                 Thread.Sleep(wait);
             }
-
-            Console.WriteLine("Press any key to end this scene:");
-            Console.ReadKey(true);
-            return new int[] { fighter.Attack, this.XP };
         }
     }
 }

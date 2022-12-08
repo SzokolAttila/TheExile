@@ -18,12 +18,13 @@ namespace TheExileBasic
         public int HP { get; set; }
         public int MaxHP { get; set; }
         public int XP { get; set; }
-        public bool Fought { get; set; }
         public bool Moved { get; set; }
+        public int[] PrevPos { get; set; }
 
-        public Fighter(int range, int[] pos, int attack, int hp, int xp = 0)
+        public string[,] Room { get; set; }
+
+        public Fighter(int range, int[] pos, int attack, int hp)
         {
-            this.Fought = false;
             this.Moved = true;
             this.Inventory = new List<Item>();
             this.Names = new List<string>();
@@ -31,8 +32,9 @@ namespace TheExileBasic
             this.Pos = pos;
             this.Attack = attack;
             this.HP = hp;
-            this.XP = xp;
+            this.XP = 0;
             this.MaxHP = hp;
+            this.PrevPos = pos;
         }
 
         public string[,] Move(string direction, string[,] room)
@@ -44,19 +46,19 @@ namespace TheExileBasic
             switch (direction)
             {
                 case "s":
-                    if (this.Pos[0] < room.GetLength(0) - 1 && room[this.Pos[0] + 1, this.Pos[1]] != "M" && (room[this.Pos[0] + 1, this.Pos[1]] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0] + 1, this.Pos[1]] != " ")
+                    if (this.Pos[0] < room.GetLength(0) - 1 && room[this.Pos[0] + 1, this.Pos[1]] != "M" && (room[this.Pos[0] + 1, this.Pos[1]] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0] + 1, this.Pos[1]] != " " && (this.Temp != "!" || (this.Pos[0] + 1 == this.PrevPos[0] && this.Pos[1] == this.PrevPos[1])))
                         this.Pos[0]++;
                     break;
                 case "w":
-                    if (this.Pos[0] > 0 && room[this.Pos[0] - 1, this.Pos[1]] != "M" && (room[this.Pos[0] - 1, this.Pos[1]] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0] - 1, this.Pos[1]] != " ")
+                    if (this.Pos[0] > 0 && room[this.Pos[0] - 1, this.Pos[1]] != "M" && (room[this.Pos[0] - 1, this.Pos[1]] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0] - 1, this.Pos[1]] != " " && (this.Temp != "!" || (this.Pos[0] - 1 == this.PrevPos[0] && this.Pos[1] == this.PrevPos[1])))
                         this.Pos[0]--;
                     break;
                 case "a":
-                    if (this.Pos[1] > 0 && room[this.Pos[0], this.Pos[1] - 1] != "M" && (room[this.Pos[0], this.Pos[1] - 1] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0], this.Pos[1] - 1] != " ")
+                    if (this.Pos[1] > 0 && room[this.Pos[0], this.Pos[1] - 1] != "M" && (room[this.Pos[0], this.Pos[1] - 1] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0], this.Pos[1] - 1] != " " && (this.Temp != "!" || (this.Pos[0] == this.PrevPos[0] && this.Pos[1] - 1 == this.PrevPos[1])))
                         this.Pos[1]--;
                     break;
                 case "d":
-                    if (this.Pos[1] < room.GetLength(1) - 1 && room[this.Pos[0], this.Pos[1] + 1] != "M" && (room[this.Pos[0], this.Pos[1] + 1] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0], this.Pos[1] + 1] != " ")
+                    if (this.Pos[1] < room.GetLength(1) - 1 && room[this.Pos[0], this.Pos[1] + 1] != "M" && (room[this.Pos[0], this.Pos[1] + 1] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0], this.Pos[1] + 1] != " " && (this.Temp != "!" || (this.Pos[0] == this.PrevPos[0] && this.Pos[1] + 1 == this.PrevPos[1])))
                         this.Pos[1]++;
                     break;
                 default:
@@ -69,12 +71,23 @@ namespace TheExileBasic
                 this.Moved = true;
                 Thread.Sleep(1);
                 Console.Clear();
+                this.PrevPos = startPos;
             }
 
             if (room[this.Pos[0], this.Pos[1]] == "~")
             {
                 this.Temp = room[this.Pos[0], this.Pos[1]];
                 room[this.Pos[0], this.Pos[1]] = "B";
+            }
+            else if (room[this.Pos[0], this.Pos[1]] == "*")
+            {
+                this.Temp = room[this.Pos[0], this.Pos[1]];
+                room[this.Pos[0], this.Pos[1]] = "I";
+            }
+            else if (room[this.Pos[0], this.Pos[1]] == "!")
+            {
+                this.Temp = room[this.Pos[0], this.Pos[1]];
+                room[this.Pos[0], this.Pos[1]] = "E";
             }
             else
             {
@@ -114,6 +127,12 @@ namespace TheExileBasic
                                 break;
                             case "B":
                                 Console.ForegroundColor = ConsoleColor.DarkRed;
+                                break;
+                            case "E":
+                                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                                break;
+                            case "I":
+                                Console.ForegroundColor = ConsoleColor.DarkCyan;
                                 break;
                             default:
                                 Console.ForegroundColor = ConsoleColor.White;
@@ -156,6 +175,12 @@ namespace TheExileBasic
                             break;
                         case "B":
                             Console.ForegroundColor = ConsoleColor.DarkRed;
+                            break;
+                        case "E":
+                            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                            break;
+                        case "I":
+                            Console.ForegroundColor = ConsoleColor.DarkCyan;
                             break;
                         default:
                             Console.ForegroundColor = ConsoleColor.White;
