@@ -101,6 +101,7 @@ namespace TheExileBasic
                             Console.WriteLine("Signs: \"M\" -> obstacle, \"*\" -> item, \"!\" -> enemy \"~\" -> water");
                             Console.WriteLine("Inventory / Stats: \"i\"");
                             Console.WriteLine("Use heal: \"u\"");
+                            Console.WriteLine("Press \"x\" to leave game");
                             help = true;
                         }
                         else
