@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +13,9 @@ namespace TheExileBasic
     {
         static void Main(string[] args)
         {
+            bool help = false;
+            bool map = false;
+            bool inventory = false;
             string path = "map.txt";
             StreamReader sr = new StreamReader(path);
             int[] matrix = Array.ConvertAll(sr.ReadLine().Split(' '), int.Parse);
@@ -50,27 +54,63 @@ namespace TheExileBasic
 
                 if (input == "m")
                 {
-                    Console.Clear();
-                    Console.WriteLine("The Exile\n"); 
-                    fighter.Map(room);
+                    if (!map)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("The Exile\n");
+                        fighter.Map(room);
+                        map = true;
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("The Exile\n");
+                        Console.WriteLine("Press \"h\" for help\n");
+                        fighter.View(room);
+                        map = false;
+                    }
                 }
                 else
                 {
                     if (input == "i")
                     {
-                        Console.Clear();
-                        Console.WriteLine("The Exile\n");
-                        Console.WriteLine($"Your stats:\nHP:\t{fighter.HP} / {fighter.MaxHP}\nAttack:\t{fighter.Attack}\nEXP:\t{fighter.XP}\nInventory:\t{String.Join(", ", fighter.Names)}");
+                        if (!inventory)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("The Exile\n");
+                            Console.WriteLine($"Your stats:\nHP:\t{fighter.HP} / {fighter.MaxHP}\nAttack:\t{fighter.Attack}\nEXP:\t{fighter.XP}\nInventory:\t{String.Join(", ", fighter.Names)}");
+                            inventory = true;
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("The Exile\n");
+                            Console.WriteLine("Press \"h\" for help\n");
+                            fighter.View(room);
+                            inventory = false;
+                        }
                     }
                     else if (input == "h")
-                    { 
-                        Console.Clear();
-                        Console.WriteLine("The Exile\n");
-                        Console.WriteLine("Movement: \"w\" (up), \"a\" (left), \"s\" (down), \"d\" (right)");
-                        Console.WriteLine("Open map: \"m\" ");
-                        Console.WriteLine("Signs: \"M\" -> obstacle, \"*\" -> item, \"!\" -> enemy \"~\" -> water");
-                        Console.WriteLine("Inventory / Stats: \"i\"");
-                        Console.WriteLine("Use heal: \"u\"");
+                    {
+                        if (!help)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("The Exile\n");
+                            Console.WriteLine("Movement: \"w\" (up), \"a\" (left), \"s\" (down), \"d\" (right)");
+                            Console.WriteLine("Open map: \"m\" ");
+                            Console.WriteLine("Signs: \"M\" -> obstacle, \"*\" -> item, \"!\" -> enemy \"~\" -> water");
+                            Console.WriteLine("Inventory / Stats: \"i\"");
+                            Console.WriteLine("Use heal: \"u\"");
+                            help = true;
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("The Exile\n");
+                            Console.WriteLine("Press \"h\" for help\n");
+                            fighter.View(room);
+                            help = false;
+                        }
                     }
                     else if (input == "u")
                     {
@@ -81,27 +121,30 @@ namespace TheExileBasic
                             if (fighter.HP + potion.Heal > fighter.MaxHP)
                                 fighter.HP = fighter.MaxHP;
                             else fighter.HP += potion.Heal;
-                            Console.WriteLine($"Healed player for {potion.Heal} HP.");
+                            Console.WriteLine($"Healed player for {potion.Heal} HP.\n");
                             fighter.Inventory.Remove(potion);
                             fighter.Names.Remove(potion.Name);
                         }
-                        else Console.WriteLine("No heal potions available!");
+                        else Console.WriteLine("No heal potions available!\n");
+                        fighter.View(room);
                     }
                     if (fighter.Moved)
                     {
                         Console.WriteLine("The Exile\n");
-                        Console.WriteLine("Press \"h\" for help");
-                        Console.WriteLine();
+                        Console.WriteLine("Press \"h\" for help\n");
                         fighter.View(room);
+                        Enemy.CheckPositions(fighter);
+                        Item.CheckPositions(fighter);
                     }
                 }
-
-                Enemy.CheckPositions(fighter);
-                Item.CheckPositions(fighter);
+                
                 if (fighter.Fought)
                 {
                     Console.Clear();
                     fighter.Fought = false;
+                    Console.WriteLine("The Exile\n");
+                    Console.WriteLine("Press \"h\" for help\n");
+                    fighter.View(room);
                     continue;
                 }
 

@@ -68,19 +68,19 @@ namespace TheExileBasic
             {
                 this.Moved = true;
                 Thread.Sleep(1);
-                if (room[this.Pos[0], this.Pos[1]] == "~")
-                {
-                    this.Temp = room[this.Pos[0], this.Pos[1]];
-                    room[this.Pos[0], this.Pos[1]] = "B";
-                }
-                else
-                {
-                    this.Temp = room[this.Pos[0], this.Pos[1]];
-                    room[this.Pos[0], this.Pos[1]] = "X";
-                }
                 Console.Clear();
             }
 
+            if (room[this.Pos[0], this.Pos[1]] == "~")
+            {
+                this.Temp = room[this.Pos[0], this.Pos[1]];
+                room[this.Pos[0], this.Pos[1]] = "B";
+            }
+            else
+            {
+                this.Temp = room[this.Pos[0], this.Pos[1]];
+                room[this.Pos[0], this.Pos[1]] = "X";
+            }
             return room;
         }
 
