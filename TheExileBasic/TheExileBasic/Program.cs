@@ -45,6 +45,7 @@ namespace TheExileBasic
             Item potion = new Item("Consumable", "Heal", "Rare", "Replenishes a small amount of missing health; Cannot exceed max HP.", new int[] { 7, 19 }, fighter.Room, heal: 200);
             Enemy golem = new Enemy(2480, 50, "Golem", 250, new int[] { 11, 23 }, fighter.Room);
             Enemy ent = new Enemy(400, 60, "Ent", 100, new int[] { 13, 46 }, fighter.Room);
+            NPC Jani = new NPC("Jani", "enemy", "The Golem keeps my village in fear, please defend us from it!", fighter.Room, new int[] { 5, 5 }, 1000, null, null, golem);
 
             string input = "";
             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -267,6 +268,7 @@ namespace TheExileBasic
                         fighter.View(fighter.Room);
                         Enemy.CheckPositions(fighter);
                         Item.CheckPositions(fighter);
+                        NPC.CheckPositions(fighter);
                         help = false;
                         inventory = false;
                         map = false;
@@ -284,6 +286,7 @@ namespace TheExileBasic
                     Console.WriteLine($"\nGame Over! You died with {fighter.XP} XP.");
                     break;
                 }
+                NPC.checkQuest(fighter);
 
             } while (input != "x");
 

@@ -21,3 +21,10 @@ D:\Szokol Attila 10B\ikt\The Exile\TheExile-main\TheExileBasic\TheExileBasic\obj
 D:\Szokol Attila 10B\ikt\The Exile\TheExile-main\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.csproj.CoreCompileInputs.cache
 D:\Szokol Attila 10B\ikt\The Exile\TheExile-main\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.exe
 D:\Szokol Attila 10B\ikt\The Exile\TheExile-main\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.pdb
+C:\Users\balu0\Downloads\TheExile-main (1)\TheExile-main\TheExileBasic\TheExileBasic\bin\Debug\TheExileBasic.exe.config
+C:\Users\balu0\Downloads\TheExile-main (1)\TheExile-main\TheExileBasic\TheExileBasic\bin\Debug\TheExileBasic.exe
+C:\Users\balu0\Downloads\TheExile-main (1)\TheExile-main\TheExileBasic\TheExileBasic\bin\Debug\TheExileBasic.pdb
+C:\Users\balu0\Downloads\TheExile-main (1)\TheExile-main\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.csproj.AssemblyReference.cache
+C:\Users\balu0\Downloads\TheExile-main (1)\TheExile-main\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.csproj.CoreCompileInputs.cache
+C:\Users\balu0\Downloads\TheExile-main (1)\TheExile-main\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.exe
+C:\Users\balu0\Downloads\TheExile-main (1)\TheExile-main\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.pdb
