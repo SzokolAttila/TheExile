@@ -316,6 +316,7 @@ namespace TheExileBasic
 
             } while (input != "x");
 
+            Console.ReadKey(true);
             sr.Close();
         }
     }
