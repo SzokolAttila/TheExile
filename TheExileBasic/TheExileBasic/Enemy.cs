@@ -65,22 +65,25 @@ namespace TheExileBasic
                     Enemies.Remove(Enemies[i]);
 
                     Console.WriteLine("Press any key to end this scene: \n");
-                    Console.ReadKey(true);
 
-                    Console.Clear();
+                    if (fighter.HP > 0)
+                    {
+                        Console.ReadKey(true);
+                        Console.Clear();
 
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.WriteLine("The Exile\n");
-                    Console.ForegroundColor = ConsoleColor.White;
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.WriteLine("The Exile\n");
+                        Console.ForegroundColor = ConsoleColor.White;
 
-                    Console.Write("Press ");
-                    Console.ForegroundColor = ConsoleColor.Magenta;
-                    Console.Write("H");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write(" for help\n\n");
+                        Console.Write("Press ");
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        Console.Write("H");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write(" for help\n\n");
 
-                    fighter.Room[fighter.Pos[0], fighter.Pos[1]] = "X";
-                    fighter.View(fighter.Room);
+                        fighter.Room[fighter.Pos[0], fighter.Pos[1]] = "X";
+                        fighter.View(fighter.Room);
+                    }
 
                 }
             }

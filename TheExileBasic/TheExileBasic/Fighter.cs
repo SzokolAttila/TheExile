@@ -20,14 +20,17 @@ namespace TheExileBasic
         public int XP { get; set; }
         public bool Moved { get; set; }
         public int[] PrevPos { get; set; }
-
+        public List<Item> Consumables { get; set; }
+        public List<string> ConsumableNames { get; set; }
         public string[,] Room { get; set; }
 
         public Fighter(int range, int[] pos, int attack, int hp)
         {
             this.Moved = true;
             this.Inventory = new List<Item>();
+            this.Consumables = new List<Item>();
             this.Names = new List<string>();
+            this.ConsumableNames = new List<string>();
             this.Range = range;
             this.Pos = pos;
             this.Attack = attack;
@@ -89,6 +92,11 @@ namespace TheExileBasic
                 this.Temp = room[this.Pos[0], this.Pos[1]];
                 room[this.Pos[0], this.Pos[1]] = "E";
             }
+            else if (room[this.Pos[0], this.Pos[1]] == "?")
+            {
+                this.Temp = room[this.Pos[0], this.Pos[1]];
+                room[this.Pos[0], this.Pos[1]] = "N";
+            }
             else
             {
                 this.Temp = room[this.Pos[0], this.Pos[1]];
@@ -130,6 +138,9 @@ namespace TheExileBasic
                                 break;
                             case "E":
                                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                                break;
+                            case "N":
+                                Console.ForegroundColor = ConsoleColor.Green;
                                 break;
                             case "I":
                                 Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -178,6 +189,9 @@ namespace TheExileBasic
                             break;
                         case "B":
                             Console.ForegroundColor = ConsoleColor.DarkRed;
+                            break;
+                        case "N":
+                            Console.ForegroundColor = ConsoleColor.Green;
                             break;
                         case "E":
                             Console.ForegroundColor = ConsoleColor.DarkMagenta;

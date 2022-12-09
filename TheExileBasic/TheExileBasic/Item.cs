@@ -17,8 +17,8 @@ namespace TheExileBasic
         public string Rarity { get; set; }
         public string Desc { get; set; }
         public int[] Pos { get; set; }
-
-        public Item(string type, string name, string rarity, string desc, int[] pos, string[,] room, int attack = 0, int hp = 0, int heal = 0)
+        public int Range { get; set; }
+        public Item(string type, string name, string rarity, string desc, int[] pos, string[,] room, int attack = 0, int hp = 0, int heal = 0, int range = 0)
         {
             Items.Add(this);
             this.Type = type;
@@ -28,6 +28,7 @@ namespace TheExileBasic
             this.Pos = pos;
             this.Attack = attack;
             this.HP = hp;
+            this.Range = range;
             this.Heal = heal;
             room[this.Pos[0], this.Pos[1]] = "*";
         }
@@ -50,17 +51,21 @@ namespace TheExileBasic
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.Write(Items[i].Rarity);
                     Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("\nHP:\t");
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.Write(Items[i].HP);
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.Write("\nAttack:\t");
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.Write(Items[i].Attack);
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write("\nHP:\t");
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.Write(Items[i].HP);
-                    Console.ForegroundColor = ConsoleColor. White;
                     Console.Write("\nHeal:\t");
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write(Items[i].Heal);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("\nRange:\t");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write(Items[i].Range);
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.Write("\nDescription:\t");
                     Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -93,9 +98,18 @@ namespace TheExileBasic
 
                     fighter.Attack += Items[i].Attack;
                     fighter.MaxHP += Items[i].HP;
+                    fighter.Range += Items[i].Range;
                     fighter.Temp = "0";
-                    fighter.Inventory.Add(Items[i]);
-                    fighter.Names.Add(Items[i].Name);
+                    if (Items[i].Type == "Consumable")
+                    {
+                        fighter.Consumables.Add(Items[i]);
+                        fighter.ConsumableNames.Add(Items[i].Name);
+                    }
+                    else
+                    {
+                        fighter.Inventory.Add(Items[i]);
+                        fighter.Names.Add(Items[i].Name);
+                    }
                     Items.Remove(Items[i]);
                 }
             }

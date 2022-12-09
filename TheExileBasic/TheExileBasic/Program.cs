@@ -45,8 +45,9 @@ namespace TheExileBasic
             Item potion = new Item("Consumable", "Heal", "Rare", "Replenishes a small amount of missing health; Cannot exceed max HP.", new int[] { 7, 19 }, fighter.Room, heal: 200);
             Enemy golem = new Enemy(2480, 50, "Golem", 250, new int[] { 11, 23 }, fighter.Room);
             Enemy ent = new Enemy(400, 60, "Ent", 100, new int[] { 13, 46 }, fighter.Room);
-            NPC Jani = new NPC("Jani", "enemy", "The Golem keeps my village in fear, please defend us from it!", fighter.Room, new int[] { 5, 5 }, 1000, null, null, golem);
-
+            NPC Jani = new NPC("Jani", "enemy", "The Golem keeps my village in fear, please defend us from it!", fighter.Room, new int[] { 5, 5 }, 1000, questEnemy: golem);
+            Item glasses = new Item("Utility", "A pair of glasses", "Uncommon", "To see further than the tip of your toes",  new int[] { 1, 32 }, fighter.Room, range: 1); ;
+            
             string input = "";
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("The Exile\n\n");
@@ -87,7 +88,11 @@ namespace TheExileBasic
                         Console.Write("H");
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.Write(" for help\n\n");
+
                         fighter.View(fighter.Room);
+                        Enemy.CheckPositions(fighter);
+                        Item.CheckPositions(fighter);
+                        NPC.CheckPositions(fighter);
                         map = false;
                     }
                 }
@@ -102,7 +107,7 @@ namespace TheExileBasic
                             Console.WriteLine("The Exile\n");
                             Console.ForegroundColor = ConsoleColor.White;
 
-                            Console.WriteLine($"Your stats:\nHP:\t{fighter.HP} / {fighter.MaxHP}\nAttack:\t{fighter.Attack}\nEXP:\t{fighter.XP}\nInventory:\t{String.Join(", ", fighter.Names)}");
+                            Console.WriteLine($"Your stats:\nHP:\t{fighter.HP} / {fighter.MaxHP}\nAttack:\t{fighter.Attack}\nEXP:\t{fighter.XP}\nInventory:\t{String.Join(", ", fighter.Names)}\nConsumables:\t{String.Join(", ", fighter.ConsumableNames)}");
                             inventory = true;
                         }
                         else
@@ -117,7 +122,11 @@ namespace TheExileBasic
                             Console.Write("H");
                             Console.ForegroundColor = ConsoleColor.White;
                             Console.Write(" for help\n\n");
+
                             fighter.View(fighter.Room);
+                            Enemy.CheckPositions(fighter);
+                            Item.CheckPositions(fighter);
+                            NPC.CheckPositions(fighter);
                             inventory = false;
                         }
                     }
@@ -162,6 +171,10 @@ namespace TheExileBasic
                             Console.Write("*");
                             Console.ForegroundColor = ConsoleColor.White;
                             Console.Write(" -> item, ");
+                            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                            Console.Write("?");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write(" -> NPC, ");
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.Write("!");
                             Console.ForegroundColor = ConsoleColor.White;
@@ -184,6 +197,10 @@ namespace TheExileBasic
                             Console.Write("E");
                             Console.ForegroundColor = ConsoleColor.White;
                             Console.Write(" -> enemy, ");
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.Write("N");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write(" -> NPC, ");
                             Console.ForegroundColor = ConsoleColor.DarkCyan;
                             Console.Write("I");
                             Console.ForegroundColor = ConsoleColor.White;
@@ -223,7 +240,11 @@ namespace TheExileBasic
                             Console.Write("H");
                             Console.ForegroundColor = ConsoleColor.White;
                             Console.Write(" for help\n\n");
+
                             fighter.View(fighter.Room);
+                            Enemy.CheckPositions(fighter);
+                            Item.CheckPositions(fighter);
+                            NPC.CheckPositions(fighter);
                             help = false;
                         }
                     }
@@ -234,17 +255,21 @@ namespace TheExileBasic
                         Console.WriteLine("The Exile\n");
                         Console.ForegroundColor = ConsoleColor.White;
 
-                        if (fighter.Inventory.Contains(potion))
+                        if (fighter.Consumables.Contains(potion))
                         {
                             if (fighter.HP + potion.Heal > fighter.MaxHP)
                                 fighter.HP = fighter.MaxHP;
                             else fighter.HP += potion.Heal;
                             Console.WriteLine($"Healed player for {potion.Heal} HP.\n");
-                            fighter.Inventory.Remove(potion);
-                            fighter.Names.Remove(potion.Name);
+                            fighter.Consumables.Remove(potion);
+                            fighter.ConsumableNames.Remove(potion.Name);
                         }
                         else Console.WriteLine("No heal potions available!\n");
+
                         fighter.View(fighter.Room);
+                        Enemy.CheckPositions(fighter);
+                        Item.CheckPositions(fighter);
+                        NPC.CheckPositions(fighter);
                     }
                     else if (input == "e")
                     { 
@@ -284,6 +309,7 @@ namespace TheExileBasic
 
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine($"\nGame Over! You died with {fighter.XP} XP.");
+                    Console.ForegroundColor = ConsoleColor.White;
                     break;
                 }
                 NPC.checkQuest(fighter);

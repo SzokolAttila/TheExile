@@ -38,30 +38,30 @@ namespace TheExileBasic
         {
             for (int i = 0; i < NPCs.Count; i++)
             {
-                if ((fighter.Pos[0] == NPCs[i].Pos[0] && fighter.Pos[1] - 1 == NPCs[i].Pos[1]) || (fighter.Pos[0] == NPCs[i].Pos[0] && fighter.Pos[1] + 1 == NPCs[i].Pos[1]) || (fighter.Pos[0] - 1 == NPCs[i].Pos[0] && fighter.Pos[1] == NPCs[i].Pos[1]) || (fighter.Pos[0] + 1 == NPCs[i].Pos[0] && fighter.Pos[1] == NPCs[i].Pos[1]) || fighter.Pos[0] == NPCs[i].Pos[0] && fighter.Pos[1] == NPCs[i].Pos[1])
+                if (fighter.Pos[0] == NPCs[i].Pos[0] && fighter.Pos[1] == NPCs[i].Pos[1])
                 {
                     if (!NPCs[i].isCompleted)
                     { 
-                        Console.Write("Hello, my name is "+NPCs[i].Name+".\n"+NPCs[i].Text+"\nYour task is to ");
+                        Console.Write("\nHello, my name is "+NPCs[i].Name+".\n"+NPCs[i].Text+"\nYour task is to ");
                         switch(NPCs[i].Type)
                         {
                             case "place":
-                                Console.WriteLine("Get to a specific place. ("+string.Join(",", NPCs[i].QuestPlace)+")");
+                                Console.WriteLine("get to a specific place. ("+string.Join(",", NPCs[i].QuestPlace)+")");
                                 break;
                             case "enemy":
-                                Console.WriteLine("You need to kill the "+NPCs[i].QuestEnemy.Name);
+                                Console.WriteLine("kill the "+NPCs[i].QuestEnemy.Name);
                                 break;
                             case "item":
-                                Console.WriteLine("You need to find the " + NPCs[i].QuestItem.Name);
+                                Console.WriteLine("find the " + NPCs[i].QuestItem.Name);
                                 break;
                         }
-                        Console.WriteLine("Come back after you finished, so you'll gain "+NPCs[i].XP+" EXP in exchange. (Step on the same field)");
+                        Console.WriteLine("Come back after you have finished, so you'll gain "+NPCs[i].XP+" EXP in exchange.");
                     }
                     else if (NPCs[i].isCompleted)
                     {
                         if (NPCs[i].Pos[0] == fighter.Pos[0] && NPCs[i].Pos[1] == fighter.Pos[1])
                         {
-                            Console.Write("The quest is ready to hand-in, press");
+                            Console.Write("\nThe quest is ready to hand-in, press");
                             Console.ForegroundColor = ConsoleColor.Magenta;
                             Console.Write(" E ");
                             Console.ForegroundColor = ConsoleColor.White;
@@ -82,7 +82,7 @@ namespace TheExileBasic
                 }
             }
         }
-        
+
         public static void checkQuest(Fighter fighter)
         {
             for (int i = 0; i<NPCs.Count; i++)
