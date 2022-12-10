@@ -11,7 +11,8 @@ namespace TheExileBasic
         public static List<NPC> NPCs = new List<NPC>();
         public string Name { get; set; }
         public string Type { get; set; }
-        public int[] QuestPlace { get; set; }
+        public int[] QuestPlaceFrom { get; set; }
+        public int[] QuestPlaceTo { get; set; }
         public Item QuestItem { get; set; }
         public Enemy QuestEnemy { get; set; }
         public string Text { get; set; }
@@ -19,13 +20,14 @@ namespace TheExileBasic
         public bool isCompleted { get; set; }
         public int XP { get; set; }
 
-        public NPC(string name, string type, string text, string[,] room, int[] pos, int xp, int[] questPlace = null, Item questItem = null, Enemy questEnemy=null, bool iscompleted = false)
+        public NPC(string name, string type, string text, string[,] room, int[] pos, int xp, int[] questPlaceFrom = null, int[] questPlaceTo = null, Item questItem = null, Enemy questEnemy=null, bool iscompleted = false)
         {
             NPCs.Add(this);
             this.Name = name;
             this.Type = type;
             this.Text = text;
-            this.QuestPlace = questPlace;
+            this.QuestPlaceFrom = questPlaceFrom;
+            this.QuestPlaceTo = questPlaceTo;
             this.QuestItem = questItem;
             this.QuestEnemy = questEnemy;
             this.Pos = pos;
@@ -46,7 +48,7 @@ namespace TheExileBasic
                         switch(NPCs[i].Type)
                         {
                             case "place":
-                                Console.WriteLine("get to a specific place. ("+string.Join(",", NPCs[i].QuestPlace)+")");
+                                Console.WriteLine("get to a specific place. Signed with the question mark's color.");
                                 break;
                             case "enemy":
                                 Console.WriteLine("kill the "+NPCs[i].QuestEnemy.Name);
@@ -90,7 +92,7 @@ namespace TheExileBasic
                 switch (NPCs[i].Type)
                 {
                     case "place":
-                        if (fighter.Pos[0] == NPCs[i].Pos[0] && fighter.Pos[1] == NPCs[i].Pos[1])
+                        if (fighter.Pos[0] >= NPCs[i].QuestPlaceFrom[0] && fighter.Pos[1] >= NPCs[i].QuestPlaceFrom[1] && fighter.Pos[0] <= NPCs[i].QuestPlaceTo[0] && fighter.Pos[1] <= NPCs[i].QuestPlaceTo[1])
                         {
                             NPCs[i].isCompleted = true;
                         }

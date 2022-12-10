@@ -7,11 +7,13 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace TheExileBasic
 {
     internal class Program
     {
+
         static void Main(string[] args)
         {
             bool help = false;
@@ -46,6 +48,7 @@ namespace TheExileBasic
             Enemy golem = new Enemy(2480, 50, "Golem", 250, new int[] { 11, 23 }, fighter.Room);
             Enemy ent = new Enemy(400, 60, "Ent", 100, new int[] { 13, 46 }, fighter.Room);
             NPC Jani = new NPC("Jani", "enemy", "The Golem keeps my village in fear, please defend us from it!", fighter.Room, new int[] { 5, 5 }, 1000, questEnemy: golem);
+            NPC Erwin = new NPC("Erwin","place", "By the way...you'd better visit that isle!", fighter.Room, new int[] {13, 8}, 300, new int[] {5, 16}, new int[] {7,19});
             Item glasses = new Item("Utility", "A pair of glasses", "Uncommon", "To see further than the tip of your toes",  new int[] { 1, 32 }, fighter.Room, range: 1); ;
             
             string input = "";
@@ -182,7 +185,11 @@ namespace TheExileBasic
                             Console.ForegroundColor = ConsoleColor.DarkBlue;
                             Console.Write("~");
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.Write(" -> water\n");
+                            Console.Write(" -> water, ");
+                            Console.BackgroundColor = ConsoleColor.DarkMagenta;
+                            Console.Write(" ");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.Write(" -> a quest's place\n");
 
                             Console.Write("Character signs: ");
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -230,7 +237,7 @@ namespace TheExileBasic
                         }
                         else
                         {
-                            Console.Clear();
+                            //Console.Clear();
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
                             Console.WriteLine("The Exile\n");
                             Console.ForegroundColor = ConsoleColor.White;
