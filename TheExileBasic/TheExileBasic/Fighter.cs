@@ -40,7 +40,7 @@ namespace TheExileBasic
             this.PrevPos = pos;
         }
 
-        public string[,] Move(string direction, string[,] room)
+        public string[,] Move(char direction, string[,] room)
         {
             room[this.Pos[0], this.Pos[1]] = this.Temp;
             int[] startPos = new int[] { this.Pos[0], this.Pos[1] };
@@ -48,19 +48,19 @@ namespace TheExileBasic
 
             switch (direction)
             {
-                case "s":
+                case 's':
                     if (this.Pos[0] < room.GetLength(0) - 1 && room[this.Pos[0] + 1, this.Pos[1]] != "M" && (room[this.Pos[0] + 1, this.Pos[1]] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0] + 1, this.Pos[1]] != " " && (this.Temp != "!" || (this.Pos[0] + 1 == this.PrevPos[0] && this.Pos[1] == this.PrevPos[1])))
                         this.Pos[0]++;
                     break;
-                case "w":
+                case 'w':
                     if (this.Pos[0] > 0 && room[this.Pos[0] - 1, this.Pos[1]] != "M" && (room[this.Pos[0] - 1, this.Pos[1]] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0] - 1, this.Pos[1]] != " " && (this.Temp != "!" || (this.Pos[0] - 1 == this.PrevPos[0] && this.Pos[1] == this.PrevPos[1])))
                         this.Pos[0]--;
                     break;
-                case "a":
+                case 'a':
                     if (this.Pos[1] > 0 && room[this.Pos[0], this.Pos[1] - 1] != "M" && (room[this.Pos[0], this.Pos[1] - 1] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0], this.Pos[1] - 1] != " " && (this.Temp != "!" || (this.Pos[0] == this.PrevPos[0] && this.Pos[1] - 1 == this.PrevPos[1])))
                         this.Pos[1]--;
                     break;
-                case "d":
+                case 'd':
                     if (this.Pos[1] < room.GetLength(1) - 1 && room[this.Pos[0], this.Pos[1] + 1] != "M" && (room[this.Pos[0], this.Pos[1] + 1] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0], this.Pos[1] + 1] != " " && (this.Temp != "!" || (this.Pos[0] == this.PrevPos[0] && this.Pos[1] + 1 == this.PrevPos[1])))
                         this.Pos[1]++;
                     break;
@@ -105,14 +105,30 @@ namespace TheExileBasic
             return room;
         }
 
+        static int Limit(int min, int max, int value)
+        {
+            if (value > max)
+                return max;
+            else if (value < min)
+                return min;
+            else return value;
+        }
+
         public void View(string[,] room)
         {
+            List<NPC> quests = NPC.NPCs;
             for (int i = -this.Range; i <= this.Range; i++)
             {
                 for (int j = -this.Range; j <= this.Range; j++)
                 {
                     if (this.Pos[0] + i >= 0 && this.Pos[0] + i < room.GetLength(0) && this.Pos[1] + j >= 0 && this.Pos[1] + j < room.GetLength(1) && this.Pos[1] + j < room.GetLength(1))
                     {
+                        for (int a = 0; a<quests.Count; a++)
+                        {
+                            if (quests[a].HasTalked && quests[a].Type == "place" && this.Pos[0]+i >= quests[a].QuestPlaceFrom[0] && this.Pos[1] + j >= quests[a].QuestPlaceFrom[1] && this.Pos[0] + i <= quests[a].QuestPlaceTo[0] && this.Pos[1] + j <= quests[a].QuestPlaceTo[1])
+                                Console.BackgroundColor = ConsoleColor.DarkMagenta;
+                        }
+
                         switch (room[this.Pos[0] + i, this.Pos[1] + j])
                         {
                             case "X":
@@ -152,8 +168,10 @@ namespace TheExileBasic
                                 Console.ForegroundColor = ConsoleColor.White;
                                 break;
                         }
+                        Console.SetCursorPosition(Fighter.Limit(0, Console.WindowWidth - 5 + j, this.Pos[1] + j), Fighter.Limit(0, Console.WindowHeight - 5 + i, this.Pos[0] + i + 4));
                         Console.Write(room[this.Pos[0] + i, this.Pos[1] + j]);
                         Console.ForegroundColor = ConsoleColor.White;
+                        Console.BackgroundColor = ConsoleColor.Black;
                     }
                     else Console.Write(" ");
                 }
@@ -163,10 +181,18 @@ namespace TheExileBasic
 
         public void Map(string[,] room)
         {
+            List<NPC> quests = NPC.NPCs;
             for (int i = 0; i < room.GetLength(0); i++)
             {
                 for (int j = 0; j < room.GetLength(1); j++)
                 {
+                    for (int a = 0; a < quests.Count; a++)
+                    {
+                        if (quests[a].HasTalked && quests[a].Type == "place" && i >= quests[a].QuestPlaceFrom[0] && j >= quests[a].QuestPlaceFrom[1] && i <= quests[a].QuestPlaceTo[0] && j <= quests[a].QuestPlaceTo[1])
+                        {
+                            Console.BackgroundColor = ConsoleColor.DarkMagenta;
+                        }
+                    }
                     switch (room[i, j])
                     {
                         case "X":
@@ -208,6 +234,7 @@ namespace TheExileBasic
                     }
                     Console.Write(room[i, j]);
                     Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.Black;
                 }
                 Console.WriteLine();
             }

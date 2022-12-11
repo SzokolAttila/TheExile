@@ -7,11 +7,13 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace TheExileBasic
 {
     internal class Program
     {
+
         static void Main(string[] args)
         {
             bool help = false;
@@ -22,9 +24,10 @@ namespace TheExileBasic
             int[] matrix = Array.ConvertAll(sr.ReadLine().Split(' '), int.Parse);
             int[] startPos = Array.ConvertAll(sr.ReadLine().Split(' '), int.Parse);
 
-            Fighter fighter = new Fighter(3, startPos, 100, 1000);
-
-            fighter.Room = new string[matrix[0], matrix[1]];
+            Fighter fighter = new Fighter(3, startPos, 100, 1000)
+            {
+                Room = new string[matrix[0], matrix[1]]
+            };
             string[] text = sr.ReadToEnd().Split('\n');
             
             for (int i = 0; i < matrix[0]; i++)
@@ -45,10 +48,11 @@ namespace TheExileBasic
             Item potion = new Item("Consumable", "Heal", "Rare", "Replenishes a small amount of missing health; Cannot exceed max HP.", new int[] { 7, 19 }, fighter.Room, heal: 200);
             Enemy golem = new Enemy(2480, 50, "Golem", 250, new int[] { 11, 23 }, fighter.Room);
             Enemy ent = new Enemy(400, 60, "Ent", 100, new int[] { 13, 46 }, fighter.Room);
-            NPC Jani = new NPC("Jani", "enemy", "The Golem keeps my village in fear, please defend us from it!", fighter.Room, new int[] { 5, 5 }, 1000, questEnemy: golem);
-            Item glasses = new Item("Utility", "A pair of glasses", "Uncommon", "To see further than the tip of your toes",  new int[] { 1, 32 }, fighter.Room, range: 1); ;
+            NPC jani = new NPC("Jani", "enemy", "The Golem keeps my village in fear, please defend us from it!", fighter.Room, new int[] { 5, 5 }, 1000, questEnemy: golem);
+            NPC erwin = new NPC("Erwin","place", "By the way...you'd better visit that isle!", fighter.Room, new int[] {13, 8}, 300, new int[] {5, 16}, new int[] {7,19});
+            Item glasses = new Item("Utility", "A pair of glasses", "Uncommon", "To see further than the tip of your toes",  new int[] { 31, 5 }, fighter.Room, range: 1); ;
             
-            string input = "";
+            char input;
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("The Exile\n\n");
             Console.ForegroundColor = ConsoleColor.White;
@@ -61,10 +65,10 @@ namespace TheExileBasic
 
             do
             {
-                input = Console.ReadKey(true).KeyChar.ToString();
+                input = Char.ToLower(Convert.ToChar(Console.ReadKey(true).KeyChar));
                 fighter.Room = fighter.Move(input, fighter.Room);
 
-                if (input == "m")
+                if (input == 'm')
                 {
                     if (!map)
                     {
@@ -75,6 +79,8 @@ namespace TheExileBasic
 
                         fighter.Map(fighter.Room);
                         map = true;
+                        help = false;
+                        inventory = false;
                     }
                     else
                     {
@@ -98,7 +104,7 @@ namespace TheExileBasic
                 }
                 else
                 {
-                    if (input == "i")
+                    if (input == 'i')
                     {
                         if (!inventory)
                         {
@@ -109,6 +115,8 @@ namespace TheExileBasic
 
                             Console.WriteLine($"Your stats:\nHP:\t{fighter.HP} / {fighter.MaxHP}\nAttack:\t{fighter.Attack}\nEXP:\t{fighter.XP}\nInventory:\t{String.Join(", ", fighter.Names)}\nConsumables:\t{String.Join(", ", fighter.ConsumableNames)}");
                             inventory = true;
+                            map = false;
+                            help = false;
                         }
                         else
                         {
@@ -130,7 +138,7 @@ namespace TheExileBasic
                             inventory = false;
                         }
                     }
-                    else if (input == "h")
+                    else if (input == 'h')
                     {
                         if (!help)
                         {
@@ -182,7 +190,11 @@ namespace TheExileBasic
                             Console.ForegroundColor = ConsoleColor.DarkBlue;
                             Console.Write("~");
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.Write(" -> water\n");
+                            Console.Write(" -> water, ");
+                            Console.BackgroundColor = ConsoleColor.DarkMagenta;
+                            Console.Write(" ");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.Write(" -> a quest's place\n");
 
                             Console.Write("Character signs: ");
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -227,6 +239,8 @@ namespace TheExileBasic
                             Console.ForegroundColor = ConsoleColor.White;
                             Console.Write(" to leave game");
                             help = true;
+                            map = false;
+                            inventory = false;
                         }
                         else
                         {
@@ -248,7 +262,7 @@ namespace TheExileBasic
                             help = false;
                         }
                     }
-                    else if (input == "u")
+                    else if (input == 'u')
                     {
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -271,7 +285,7 @@ namespace TheExileBasic
                         Item.CheckPositions(fighter);
                         NPC.CheckPositions(fighter);
                     }
-                    else if (input == "e")
+                    else if (input == 'e')
                     { 
                         Enemy.StartCombat(fighter);
                         Item.PickUp(fighter);
@@ -312,9 +326,9 @@ namespace TheExileBasic
                     Console.ForegroundColor = ConsoleColor.White;
                     break;
                 }
-                NPC.checkQuest(fighter);
+                NPC.CheckQuest(fighter);
 
-            } while (input != "x");
+            } while (input != 'x');
 
             Console.ReadKey(true);
             sr.Close();
