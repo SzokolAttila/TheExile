@@ -38,6 +38,16 @@ namespace TheExileBasic
             this.IsCompleted = iscompleted;
             this.XP = xp;
             room[this.Pos[0], this.Pos[1]] = "?";
+            Enemy.Enemies.Remove(this.QuestEnemy);
+            Item.Items.Remove(this.QuestItem);
+            if(this.QuestItem != null)
+            {
+                room[this.QuestItem.Pos[0], this.QuestItem.Pos[1]] = "0";
+            }
+            if(this.QuestEnemy != null)
+            {
+                room[this.QuestEnemy.Pos[0], this.QuestEnemy.Pos[1]] = "0";
+            }
         }
 
         public static void CheckPositions(Fighter fighter)
@@ -56,9 +66,13 @@ namespace TheExileBasic
                                 break;
                             case "enemy":
                                 Console.WriteLine("kill the "+NPCs[i].QuestEnemy.Name);
+                                Enemy.Enemies.Add(NPCs[i].QuestEnemy);
+                                fighter.Room[NPCs[i].QuestEnemy.Pos[0], NPCs[i].QuestEnemy.Pos[1]] = "!";
                                 break;
                             case "item":
                                 Console.WriteLine("find the " + NPCs[i].QuestItem.Name);
+                                Item.Items.Add(NPCs[i].QuestItem);
+                                fighter.Room[NPCs[i].QuestItem.Pos[0], NPCs[i].QuestItem.Pos[1]] = "*";
                                 break;
                         }
                         Console.WriteLine("Come back after you have finished, so you'll gain "+NPCs[i].XP+" EXP in exchange.");
@@ -91,20 +105,23 @@ namespace TheExileBasic
         {
             for (int i = 0; i<NPCs.Count; i++)
             {
-                switch (NPCs[i].Type)
+                if (NPCs[i].HasTalked)
                 {
-                    case "place":
-                        if (fighter.Pos[0] >= NPCs[i].QuestPlaceFrom[0] && fighter.Pos[1] >= NPCs[i].QuestPlaceFrom[1] && fighter.Pos[0] <= NPCs[i].QuestPlaceTo[0] && fighter.Pos[1] <= NPCs[i].QuestPlaceTo[1])
-                            NPCs[i].IsCompleted = true;
-                        break;
-                    case "enemy":
-                        if (!Enemy.Enemies.Contains(NPCs[i].QuestEnemy))
-                            NPCs[i].IsCompleted = true;
-                        break;
-                    case "item":
-                        if (fighter.Inventory.Contains(NPCs[i].QuestItem))
-                            NPCs[i].IsCompleted = true;
-                        break;
+                    switch (NPCs[i].Type)
+                    {
+                        case "place":
+                            if (fighter.Pos[0] >= NPCs[i].QuestPlaceFrom[0] && fighter.Pos[1] >= NPCs[i].QuestPlaceFrom[1] && fighter.Pos[0] <= NPCs[i].QuestPlaceTo[0] && fighter.Pos[1] <= NPCs[i].QuestPlaceTo[1])
+                                NPCs[i].IsCompleted = true;
+                            break;
+                        case "enemy":
+                            if (!Enemy.Enemies.Contains(NPCs[i].QuestEnemy))
+                                NPCs[i].IsCompleted = true;
+                            break;
+                        case "item":
+                            if (fighter.Inventory.Contains(NPCs[i].QuestItem))
+                                NPCs[i].IsCompleted = true;
+                            break;
+                    }
                 }
             }
         }

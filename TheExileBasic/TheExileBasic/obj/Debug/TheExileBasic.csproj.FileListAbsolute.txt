@@ -35,3 +35,10 @@ C:\Users\balu0\Downloads\TheExile-main (2)\TheExile-main\TheExileBasic\TheExileB
 C:\Users\balu0\Downloads\TheExile-main (2)\TheExile-main\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.csproj.CoreCompileInputs.cache
 C:\Users\balu0\Downloads\TheExile-main (2)\TheExile-main\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.exe
 C:\Users\balu0\Downloads\TheExile-main (2)\TheExile-main\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.pdb
+C:\Users\Suli\Desktop\TheExile-main\TheExile-main\TheExileBasic\TheExileBasic\bin\Debug\TheExileBasic.exe.config
+C:\Users\Suli\Desktop\TheExile-main\TheExile-main\TheExileBasic\TheExileBasic\bin\Debug\TheExileBasic.exe
+C:\Users\Suli\Desktop\TheExile-main\TheExile-main\TheExileBasic\TheExileBasic\bin\Debug\TheExileBasic.pdb
+C:\Users\Suli\Desktop\TheExile-main\TheExile-main\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.csproj.AssemblyReference.cache
+C:\Users\Suli\Desktop\TheExile-main\TheExile-main\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.csproj.CoreCompileInputs.cache
+C:\Users\Suli\Desktop\TheExile-main\TheExile-main\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.exe
+C:\Users\Suli\Desktop\TheExile-main\TheExile-main\TheExileBasic\TheExileBasic\obj\Debug\TheExileBasic.pdb
