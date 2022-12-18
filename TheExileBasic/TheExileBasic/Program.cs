@@ -289,6 +289,7 @@ namespace TheExileBasic
                     { 
                         Enemy.StartCombat(fighter);
                         Item.PickUp(fighter);
+                        NPC.CollectReward(fighter);
                         continue;
 
                     }
@@ -314,7 +315,7 @@ namespace TheExileBasic
                     }
                 }
                 
-                if (fighter.HP <= 0)
+                if (fighter.HP <= 0 || input == 'x')
                 {
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.DarkYellow;

@@ -9,7 +9,6 @@ namespace TheExileBasic
 {
     class Enemy
     {
-        public static List<Enemy> Enemies = new List<Enemy>();
         public int HP { get; set; }
         public int AP { get; set; }
         public string Name { get; set; }
@@ -17,7 +16,7 @@ namespace TheExileBasic
         public int[] Pos { get; set; }
         public Enemy(int hp, int ap, string name, int xp, int[] pos, string[,] room)
         {
-            Enemies.Add(this);
+            Lists.Enemies.Add(this);
             this.HP = hp;
             this.AP = ap;
             this.XP = xp;
@@ -27,21 +26,21 @@ namespace TheExileBasic
         }
         public static void CheckPositions(Fighter fighter)
         {
-            for (int i = 0; i < Enemies.Count; i++)
+            for (int i = 0; i < Lists.Enemies.Count; i++)
             {
-                if (fighter.Pos[0] == Enemies[i].Pos[0] && fighter.Pos[1] == Enemies[i].Pos[1])
+                if (fighter.Pos[0] == Lists.Enemies[i].Pos[0] && fighter.Pos[1] == Lists.Enemies[i].Pos[1])
                 {
                     Console.Write("\nYou found yourself in front of a(n) ");
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.Write(Enemies[i].Name);
+                    Console.Write(Lists.Enemies[i].Name);
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.Write(" with ");
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.Write(Enemies[i].HP);
+                    Console.Write(Lists.Enemies[i].HP);
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.Write(" Health Points and ");
                     Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write(Enemies[i].AP);
+                    Console.Write(Lists.Enemies[i].AP);
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.Write(" Attack Points.\nPress ");
                     Console.ForegroundColor = ConsoleColor.Magenta;
@@ -54,15 +53,15 @@ namespace TheExileBasic
 
         public static void StartCombat(Fighter fighter)
         {
-            for (int i = 0; i < Enemies.Count; i++)
+            for (int i = 0; i < Lists.Enemies.Count; i++)
             {
-                if (fighter.Pos[0] == Enemies[i].Pos[0] && fighter.Pos[1] == Enemies[i].Pos[1])
+                if (fighter.Pos[0] == Lists.Enemies[i].Pos[0] && fighter.Pos[1] == Lists.Enemies[i].Pos[1])
                 {
-                    int[] result = Enemies[i].Combat(fighter);
+                    int[] result = Lists.Enemies[i].Combat(fighter);
                     fighter.HP = result[0];
                     fighter.XP += result[1];
                     fighter.Temp = "0";
-                    Enemies.Remove(Enemies[i]);
+                    Lists.Enemies.Remove(Lists.Enemies[i]);
 
                     Console.WriteLine("Press any key to end this scene: \n");
 

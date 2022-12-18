@@ -116,7 +116,7 @@ namespace TheExileBasic
 
         public void View(string[,] room)
         {
-            List<NPC> quests = NPC.NPCs;
+            List<NPC> quests = Lists.NPCs;
             for (int i = -this.Range; i <= this.Range; i++)
             {
                 for (int j = -this.Range; j <= this.Range; j++)
@@ -168,7 +168,7 @@ namespace TheExileBasic
                                 Console.ForegroundColor = ConsoleColor.White;
                                 break;
                         }
-                        Console.SetCursorPosition(Fighter.Limit(0, Console.WindowWidth - 5 + j, this.Pos[1] + j), Fighter.Limit(0, Console.WindowHeight - 5 + i, this.Pos[0] + i + 4));
+                        Console.SetCursorPosition(Fighter.Limit(0, Console.WindowWidth - 5 + j, this.Pos[1] + j), Fighter.Limit(0, Console.WindowHeight - 6 + i, this.Pos[0] + i + 4));
                         Console.Write(room[this.Pos[0] + i, this.Pos[1] + j]);
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.BackgroundColor = ConsoleColor.Black;
@@ -181,7 +181,7 @@ namespace TheExileBasic
 
         public void Map(string[,] room)
         {
-            List<NPC> quests = NPC.NPCs;
+            List<NPC> quests = Lists.NPCs;
             for (int i = 0; i < room.GetLength(0); i++)
             {
                 for (int j = 0; j < room.GetLength(1); j++)
