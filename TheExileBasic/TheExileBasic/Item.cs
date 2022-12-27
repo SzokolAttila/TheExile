@@ -108,8 +108,8 @@ namespace TheExileBasic
                         Console.WriteLine("The Exile\n");
                         Console.ForegroundColor = ConsoleColor.White;
 
-                        Fighter.Fighters[i].Room[Fighter.Fighters[i].Pos[0], Fighter.Fighters[i].Pos[1]] = "X";
-                        Fighter.Fighters[i].View(Fighter.Fighters[i].Room);
+                        Room.Rooms[0][Fighter.Fighters[i].Pos[0], Fighter.Fighters[i].Pos[1]] = "X";
+                        Fighter.Fighters[i].View(Room.Rooms[0]);
 
                         Console.WriteLine($"\n{Fighter.Fighters[i].Items[j].Name} successfully obtained.");
 

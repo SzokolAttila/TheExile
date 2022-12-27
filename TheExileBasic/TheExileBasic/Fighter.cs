@@ -10,9 +10,9 @@ namespace TheExileBasic
     class Fighter
     {
         public static List<Fighter> Fighters = new List<Fighter>();
-        public List<Enemy> Enemies = new List<Enemy>();
-        public List<Item> Items = new List<Item>();
-        public List<NPC> NPCs = new List<NPC>();
+        public List<Enemy> Enemies { get; set; }
+        public List<Item> Items { get; set; }
+        public List<NPC> NPCs { get; set; }
         public List<Item> Inventory { get; set; }
         public List<string> Names { get; set; }
         public string Temp { get; set; }
@@ -26,7 +26,6 @@ namespace TheExileBasic
         public int[] PrevPos { get; set; }
         public List<Item> Consumables { get; set; }
         public List<string> ConsumableNames { get; set; }
-        public string[,] Room { get; set; }
 
         public Fighter(int range, int[] pos, int attack, int hp)
         {
@@ -42,6 +41,9 @@ namespace TheExileBasic
             this.XP = 0;
             this.MaxHP = hp;
             this.PrevPos = pos;
+            Enemies = new List<Enemy>();
+            Items = new List<Item>();
+            NPCs = new List<NPC>();
             Fighters.Add(this);
         }
 
@@ -82,31 +84,26 @@ namespace TheExileBasic
                 this.PrevPos = startPos;
             }
 
-            if (room[this.Pos[0], this.Pos[1]] == "~")
+            this.Temp = room[this.Pos[0], this.Pos[1]];
+            switch (room[this.Pos[0], this.Pos[1]])
             {
-                this.Temp = room[this.Pos[0], this.Pos[1]];
-                room[this.Pos[0], this.Pos[1]] = "B";
+                case "~":
+                    room[this.Pos[0], this.Pos[1]] = "B";
+                    break;
+                case "*":
+                    room[this.Pos[0], this.Pos[1]] = "I";
+                    break;
+                case "!":
+                    room[this.Pos[0], this.Pos[1]] = "E";
+                    break;
+                case "?":
+                    room[this.Pos[0], this.Pos[1]] = "N";
+                    break;
+                default:
+                    room[this.Pos[0], this.Pos[1]] = "X";
+                    break;
             }
-            else if (room[this.Pos[0], this.Pos[1]] == "*")
-            {
-                this.Temp = room[this.Pos[0], this.Pos[1]];
-                room[this.Pos[0], this.Pos[1]] = "I";
-            }
-            else if (room[this.Pos[0], this.Pos[1]] == "!")
-            {
-                this.Temp = room[this.Pos[0], this.Pos[1]];
-                room[this.Pos[0], this.Pos[1]] = "E";
-            }
-            else if (room[this.Pos[0], this.Pos[1]] == "?")
-            {
-                this.Temp = room[this.Pos[0], this.Pos[1]];
-                room[this.Pos[0], this.Pos[1]] = "N";
-            }
-            else
-            {
-                this.Temp = room[this.Pos[0], this.Pos[1]];
-                room[this.Pos[0], this.Pos[1]] = "X";
-            }
+            
             return room;
         }
 
@@ -126,120 +123,22 @@ namespace TheExileBasic
             {
                 for (int j = -this.Range; j <= this.Range; j++)
                 {
-                    if (this.Pos[0] + i >= 0 && this.Pos[0] + i < room.GetLength(0) && this.Pos[1] + j >= 0 && this.Pos[1] + j < room.GetLength(1) && this.Pos[1] + j < room.GetLength(1))
+                    int currI = this.Pos[0] + i;
+                    int currJ = this.Pos[1] + j;
+                    if (currI >= 0 && currI < room.GetLength(0) && currJ >= 0 && currJ < room.GetLength(1))
                     {
-                        for (int a = 0; a<quests.Count; a++)
+                        for (int k = 0; k  < quests.Count; k++)
                         {
-                            if (quests[a].HasTalked && quests[a].Type == "place" && this.Pos[0]+i >= quests[a].QuestPlaceFrom[0] && this.Pos[1] + j >= quests[a].QuestPlaceFrom[1] && this.Pos[0] + i <= quests[a].QuestPlaceTo[0] && this.Pos[1] + j <= quests[a].QuestPlaceTo[1])
+                            if (quests[k].HasTalked && quests[k].Type == "place" && this.Pos[0]+i >= quests[k].QuestPlaceFrom[0] && this.Pos[1] + j >= quests[k].QuestPlaceFrom[1] && this.Pos[0] + i <= quests[k].QuestPlaceTo[0] && this.Pos[1] + j <= quests[k].QuestPlaceTo[1])
                                 Console.BackgroundColor = ConsoleColor.DarkMagenta;
                         }
-
-                        switch (room[this.Pos[0] + i, this.Pos[1] + j])
-                        {
-                            case "X":
-                                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                                break;
-                            case "0":
-                                Console.ForegroundColor = ConsoleColor.DarkGray;
-                                break;
-                            case "M":
-                                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                                break;
-                            case "!":
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                break;
-                            case "*":
-                                Console.ForegroundColor = ConsoleColor.Cyan;
-                                break;
-                            case "~":
-                                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                                break;
-                            case "B":
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                break;
-                            case "E":
-                                Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                                break;
-                            case "N":
-                                Console.ForegroundColor = ConsoleColor.Green;
-                                break;
-                            case "I":
-                                Console.ForegroundColor = ConsoleColor.DarkCyan;
-                                break;
-                            case "?":
-                                Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                                break;
-                            default:
-                                Console.ForegroundColor = ConsoleColor.White;
-                                break;
-                        }
+                        Color.PickColor(room[currI, currJ]);
                         Console.SetCursorPosition(Fighter.Limit(0, Console.WindowWidth - 5 + j, this.Pos[1] + j), Fighter.Limit(0, Console.WindowHeight - 6 + i, this.Pos[0] + i + 4));
                         Console.Write(room[this.Pos[0] + i, this.Pos[1] + j]);
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.BackgroundColor = ConsoleColor.Black;
                     }
                     else Console.Write(" ");
-                }
-                Console.WriteLine();
-            }
-        }
-
-        public void Map(string[,] room)
-        {
-            List<NPC> quests = this.NPCs;
-            for (int i = 0; i < room.GetLength(0); i++)
-            {
-                for (int j = 0; j < room.GetLength(1); j++)
-                {
-                    for (int a = 0; a < quests.Count; a++)
-                    {
-                        if (quests[a].HasTalked && quests[a].Type == "place" && i >= quests[a].QuestPlaceFrom[0] && j >= quests[a].QuestPlaceFrom[1] && i <= quests[a].QuestPlaceTo[0] && j <= quests[a].QuestPlaceTo[1])
-                        {
-                            Console.BackgroundColor = ConsoleColor.DarkMagenta;
-                        }
-                    }
-                    switch (room[i, j])
-                    {
-                        case "X":
-                            Console.ForegroundColor = ConsoleColor.DarkYellow;
-                            break;
-                        case "0":
-                            Console.ForegroundColor = ConsoleColor.DarkGray;
-                            break;
-                        case "M":
-                            Console.ForegroundColor = ConsoleColor.DarkGreen;
-                            break;
-                        case "!":
-                            Console.ForegroundColor = ConsoleColor.DarkRed;
-                            break;
-                        case "*":
-                            Console.ForegroundColor = ConsoleColor.Cyan;
-                            break;
-                        case "~":
-                            Console.ForegroundColor = ConsoleColor.DarkBlue;
-                            break;
-                        case "B":
-                            Console.ForegroundColor = ConsoleColor.DarkRed;
-                            break;
-                        case "N":
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            break;
-                        case "E":
-                            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                            break;
-                        case "I":
-                            Console.ForegroundColor = ConsoleColor.DarkCyan;
-                            break;
-                        case "?":
-                            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                            break;
-                        default:
-                            Console.ForegroundColor = ConsoleColor.White;
-                            break;
-                    }
-                    Console.Write(room[i, j]);
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.BackgroundColor = ConsoleColor.Black;
                 }
                 Console.WriteLine();
             }

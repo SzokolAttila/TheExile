@@ -20,14 +20,13 @@ namespace TheExileBasic
             bool map = false;
             bool inventory = false;
             string path = "map.txt";
+
             StreamReader sr = new StreamReader(path);
             int[] matrix = Array.ConvertAll(sr.ReadLine().Split(' '), int.Parse);
             int[] startPos = Array.ConvertAll(sr.ReadLine().Split(' '), int.Parse);
 
-            Fighter fighter = new Fighter(3, startPos, 100, 1000)
-            {
-                Room = new string[matrix[0], matrix[1]]
-            };
+            Fighter fighter = new Fighter(3, startPos, 100, 1000);
+            Room start = new Room(matrix[0], matrix[1]);
             string[] text = sr.ReadToEnd().Split('\n');
             
             for (int i = 0; i < matrix[0]; i++)
@@ -36,21 +35,21 @@ namespace TheExileBasic
                 for (int j = 0; j < matrix[1]; j++)
                 {
                     if (j < temp.Length)
-                        fighter.Room[i, j] = temp[j].ToString();
-                    else fighter.Room[i, j] = " ";
+                        start.Map[i, j] = temp[j].ToString();
+                    else start.Map[i, j] = " ";
                 }
             }
 
-            fighter.Temp = fighter.Room[fighter.Pos[0], fighter.Pos[1]];
-            fighter.Room[fighter.Pos[0], fighter.Pos[1]] = "X";
-            Item dagger = new Item("Weapon", "Dagger", "Common", "A dull-edged dagger", new int[] { 6, 17 }, fighter.Room, attack: 24);
-            Item boat = new Item("Utility", "Boat", "Rare", "The key of exploration, a boat. Now, set sails and ride waves!", new int[] { 13, 47 }, fighter.Room);
-            Item potion = new Item("Consumable", "Heal", "Rare", "Replenishes a small amount of missing health; Cannot exceed max HP.", new int[] { 7, 19 }, fighter.Room, heal: 200);
-            Enemy golem = new Enemy(2480, 50, "Golem", 250, new int[] { 11, 23 }, fighter.Room);
-            Enemy ent = new Enemy(400, 60, "Ent", 100, new int[] { 13, 46 }, fighter.Room);
-            NPC jani = new NPC("Jani", "enemy", "The Golem keeps my village in fear, please defend us from it!", fighter.Room, new int[] { 5, 5 }, 1000, questEnemy: golem);
-            NPC erwin = new NPC("Erwin","place", "By the way...you'd better visit that isle!", fighter.Room, new int[] {13, 8}, 300, new int[] {5, 16}, new int[] {7,19});
-            Item glasses = new Item("Utility", "A pair of glasses", "Uncommon", "To see further than the tip of your toes",  new int[] { 31, 5 }, fighter.Room, range: 1); ;
+            fighter.Temp = start.Map[fighter.Pos[0], fighter.Pos[1]];
+            start.Map[fighter.Pos[0], fighter.Pos[1]] = "X";
+            Item dagger = new Item("Weapon", "Dagger", "Common", "A dull-edged dagger", new int[] { 6, 17 }, start.Map, attack: 24);
+            Item boat = new Item("Utility", "Boat", "Rare", "The key of exploration, a boat. Now, set sails and ride waves!", new int[] { 13, 47 }, start.Map);
+            Item potion = new Item("Consumable", "Heal", "Rare", "Replenishes a small amount of missing health; Cannot exceed max HP.", new int[] { 7, 19 }, start.Map, heal: 200);
+            Enemy golem = new Enemy(2480, 50, "Golem", 250, new int[] { 11, 23 }, start.Map);
+            Enemy ent = new Enemy(400, 60, "Ent", 100, new int[] { 13, 46 }, start.Map);
+            NPC jani = new NPC("Jani", "enemy", "The Golem keeps my village in fear, please defend us from it!", start.Map, new int[] { 5, 5 }, 1000, questEnemy: golem);
+            NPC erwin = new NPC("Erwin","place", "By the way...you'd better visit that isle!", start.Map, new int[] {13, 8}, 300, new int[] {5, 16}, new int[] {7,19});
+            Item glasses = new Item("Utility", "A pair of glasses", "Uncommon", "To see further than the tip of your toes",  new int[] { 31, 5 }, start.Map, range: 1); ;
             
             char input;
             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -66,7 +65,7 @@ namespace TheExileBasic
             do
             {
                 input = Char.ToLower(Convert.ToChar(Console.ReadKey(true).KeyChar));
-                fighter.Room = fighter.Move(input, fighter.Room);
+                start.Map = fighter.Move(input, start.Map);
 
                 if (input == 'm')
                 {
@@ -77,7 +76,7 @@ namespace TheExileBasic
                         Console.WriteLine("The Exile\n");
                         Console.ForegroundColor = ConsoleColor.White;
 
-                        fighter.Map(fighter.Room);
+                        start.Show(start.Map);
                         map = true;
                         help = false;
                         inventory = false;
@@ -95,7 +94,7 @@ namespace TheExileBasic
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.Write(" for help\n\n");
 
-                        fighter.View(fighter.Room);
+                        fighter.View(start.Map);
                         Enemy.CheckPositions();
                         Item.CheckPositions();
                         NPC.CheckPositions();
@@ -131,7 +130,7 @@ namespace TheExileBasic
                             Console.ForegroundColor = ConsoleColor.White;
                             Console.Write(" for help\n\n");
 
-                            fighter.View(fighter.Room);
+                            fighter.View(start.Map);
                             Enemy.CheckPositions();
                             Item.CheckPositions();
                             NPC.CheckPositions();
@@ -255,7 +254,7 @@ namespace TheExileBasic
                             Console.ForegroundColor = ConsoleColor.White;
                             Console.Write(" for help\n\n");
 
-                            fighter.View(fighter.Room);
+                            fighter.View(start.Map);
                             Enemy.CheckPositions();
                             Item.CheckPositions();
                             NPC.CheckPositions();
@@ -280,7 +279,7 @@ namespace TheExileBasic
                         }
                         else Console.WriteLine("No heal potions available!\n");
 
-                        fighter.View(fighter.Room);
+                        fighter.View(start.Map);
                         Enemy.CheckPositions();
                         Item.CheckPositions();
                         NPC.CheckPositions();
@@ -305,7 +304,7 @@ namespace TheExileBasic
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.Write(" for help\n\n");
 
-                        fighter.View(fighter.Room);
+                        fighter.View(start.Map);
                         Enemy.CheckPositions();
                         Item.CheckPositions();
                         NPC.CheckPositions();

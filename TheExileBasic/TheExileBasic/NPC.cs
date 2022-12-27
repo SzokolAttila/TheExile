@@ -72,7 +72,7 @@ namespace TheExileBasic
                                     if (!Fighter.Fighters[i].NPCs[j].HasTalked)
                                     {
                                         Fighter.Fighters[i].Enemies.Add(Fighter.Fighters[i].NPCs[j].QuestEnemy);
-                                        Fighter.Fighters[i].Room[Fighter.Fighters[i].NPCs[j].QuestEnemy.Pos[0], Fighter.Fighters[i].NPCs[j].QuestEnemy.Pos[1]] = "!";
+                                        Room.Rooms[0][Fighter.Fighters[i].NPCs[j].QuestEnemy.Pos[0], Fighter.Fighters[i].NPCs[j].QuestEnemy.Pos[1]] = "!";
                                     }
                                     break;
                                 case "item":
@@ -80,7 +80,7 @@ namespace TheExileBasic
                                     if (!Fighter.Fighters[i].NPCs[j].HasTalked)
                                     {
                                         Fighter.Fighters[i].Items.Add(Fighter.Fighters[i].NPCs[j].QuestItem);
-                                        Fighter.Fighters[i].Room[Fighter.Fighters[i].NPCs[j].QuestItem.Pos[0], Fighter.Fighters[i].NPCs[j].QuestItem.Pos[1]] = "*";
+                                        Room.Rooms[0][Fighter.Fighters[i].NPCs[j].QuestItem.Pos[0], Fighter.Fighters[i].NPCs[j].QuestItem.Pos[1]] = "*";
                                     }
                                     break;
                             }
@@ -121,7 +121,7 @@ namespace TheExileBasic
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.Write(" for help\n\n");
 
-                        Fighter.Fighters[i].View(Fighter.Fighters[i].Room);
+                        Fighter.Fighters[i].View(Room.Rooms[0]);
 
                         Console.WriteLine("\nYou succesfully completed your mission!\nYou gained " + Fighter.Fighters[i].NPCs[j].XP + " EXP.");
                         Fighter.Fighters[i].XP += Fighter.Fighters[i].NPCs[j].XP;

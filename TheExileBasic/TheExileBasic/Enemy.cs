@@ -86,8 +86,8 @@ namespace TheExileBasic
                             Console.ForegroundColor = ConsoleColor.White;
                             Console.Write(" for help\n\n");
 
-                            Fighter.Fighters[i].Room[Fighter.Fighters[i].Pos[0], Fighter.Fighters[i].Pos[1]] = "X";
-                            Fighter.Fighters[i].View(Fighter.Fighters[i].Room);
+                            Room.Rooms[0][Fighter.Fighters[i].Pos[0], Fighter.Fighters[i].Pos[1]] = "X";
+                            Fighter.Fighters[i].View(Room.Rooms[0]);
                         }
 
                     }
