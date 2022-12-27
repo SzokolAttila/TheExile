@@ -9,6 +9,10 @@ namespace TheExileBasic
 {
     class Fighter
     {
+        public static List<Fighter> Fighters = new List<Fighter>();
+        public List<Enemy> Enemies = new List<Enemy>();
+        public List<Item> Items = new List<Item>();
+        public List<NPC> NPCs = new List<NPC>();
         public List<Item> Inventory { get; set; }
         public List<string> Names { get; set; }
         public string Temp { get; set; }
@@ -38,6 +42,7 @@ namespace TheExileBasic
             this.XP = 0;
             this.MaxHP = hp;
             this.PrevPos = pos;
+            Fighters.Add(this);
         }
 
         public string[,] Move(char direction, string[,] room)
@@ -116,7 +121,7 @@ namespace TheExileBasic
 
         public void View(string[,] room)
         {
-            List<NPC> quests = Lists.NPCs;
+            List<NPC> quests = this.NPCs;
             for (int i = -this.Range; i <= this.Range; i++)
             {
                 for (int j = -this.Range; j <= this.Range; j++)
@@ -181,7 +186,7 @@ namespace TheExileBasic
 
         public void Map(string[,] room)
         {
-            List<NPC> quests = Lists.NPCs;
+            List<NPC> quests = this.NPCs;
             for (int i = 0; i < room.GetLength(0); i++)
             {
                 for (int j = 0; j < room.GetLength(1); j++)

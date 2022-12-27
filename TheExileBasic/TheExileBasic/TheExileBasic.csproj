@@ -46,7 +46,6 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="Fighter.cs" />
     <Compile Include="Item.cs" />
-    <Compile Include="Lists.cs" />
     <Compile Include="NPC.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -16,74 +16,81 @@ namespace TheExileBasic
         public int[] Pos { get; set; }
         public Enemy(int hp, int ap, string name, int xp, int[] pos, string[,] room)
         {
-            Lists.Enemies.Add(this);
             this.HP = hp;
             this.AP = ap;
             this.XP = xp;
             this.Name = name;
             this.Pos = pos;
             room[this.Pos[0], this.Pos[1]] = "!";
+            for (int i = 0; i < Fighter.Fighters.Count; i++)
+                Fighter.Fighters[i].Enemies.Add(this);
         }
-        public static void CheckPositions(Fighter fighter)
+        public static void CheckPositions()
         {
-            for (int i = 0; i < Lists.Enemies.Count; i++)
+            for (int i = 0; i < Fighter.Fighters.Count; i++)
             {
-                if (fighter.Pos[0] == Lists.Enemies[i].Pos[0] && fighter.Pos[1] == Lists.Enemies[i].Pos[1])
+                for (int j = 0; j < Fighter.Fighters[i].Enemies.Count; j++)
                 {
-                    Console.Write("\nYou found yourself in front of a(n) ");
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.Write(Lists.Enemies[i].Name);
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write(" with ");
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.Write(Lists.Enemies[i].HP);
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write(" Health Points and ");
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write(Lists.Enemies[i].AP);
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write(" Attack Points.\nPress ");
-                    Console.ForegroundColor = ConsoleColor.Magenta;
-                    Console.Write("E");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write(" for combat.");
+                    if (Fighter.Fighters[i].Pos[0] == Fighter.Fighters[i].Enemies[j].Pos[0] && Fighter.Fighters[i].Pos[1] == Fighter.Fighters[i].Enemies[j].Pos[1])
+                    {
+                        Console.Write("\nYou found yourself in front of a(n) ");
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write(Fighter.Fighters[i].Enemies[j].Name);
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write(" with ");
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.Write(Fighter.Fighters[i].Enemies[j].HP);
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write(" Health Points and ");
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write(Fighter.Fighters[i].Enemies[j].AP);
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write(" Attack Points.\nPress ");
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        Console.Write("E");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write(" for combat.");
+                    }
                 }
             }
         }
 
-        public static void StartCombat(Fighter fighter)
+        public static void StartCombat()
         {
-            for (int i = 0; i < Lists.Enemies.Count; i++)
+            for (int i = 0; i < Fighter.Fighters.Count; i++)
             {
-                if (fighter.Pos[0] == Lists.Enemies[i].Pos[0] && fighter.Pos[1] == Lists.Enemies[i].Pos[1])
+                for (int j = 0; j < Fighter.Fighters[i].Enemies.Count; j++)
                 {
-                    int[] result = Lists.Enemies[i].Combat(fighter);
-                    fighter.HP = result[0];
-                    fighter.XP += result[1];
-                    fighter.Temp = "0";
-                    Lists.Enemies.Remove(Lists.Enemies[i]);
-
-                    Console.WriteLine("Press any key to end this scene: \n");
-
-                    if (fighter.HP > 0)
+                    if (Fighter.Fighters[i].Pos[0] == Fighter.Fighters[i].Enemies[j].Pos[0] && Fighter.Fighters[i].Pos[1] == Fighter.Fighters[i].Enemies[j].Pos[1])
                     {
-                        Console.ReadKey(true);
-                        Console.Clear();
+                        int[] result = Fighter.Fighters[i].Enemies[j].Combat(Fighter.Fighters[i]);
+                        Fighter.Fighters[i].HP = result[0];
+                        Fighter.Fighters[i].XP += result[1];
+                        Fighter.Fighters[i].Temp = "0";
+                        Fighter.Fighters[i].Enemies.Remove(Fighter.Fighters[i].Enemies[j]);
 
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        Console.WriteLine("The Exile\n");
-                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("Press any key to end this scene: \n");
 
-                        Console.Write("Press ");
-                        Console.ForegroundColor = ConsoleColor.Magenta;
-                        Console.Write("H");
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write(" for help\n\n");
+                        if (Fighter.Fighters[i].HP > 0)
+                        {
+                            Console.ReadKey(true);
+                            Console.Clear();
 
-                        fighter.Room[fighter.Pos[0], fighter.Pos[1]] = "X";
-                        fighter.View(fighter.Room);
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            Console.WriteLine("The Exile\n");
+                            Console.ForegroundColor = ConsoleColor.White;
+
+                            Console.Write("Press ");
+                            Console.ForegroundColor = ConsoleColor.Magenta;
+                            Console.Write("H");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write(" for help\n\n");
+
+                            Fighter.Fighters[i].Room[Fighter.Fighters[i].Pos[0], Fighter.Fighters[i].Pos[1]] = "X";
+                            Fighter.Fighters[i].View(Fighter.Fighters[i].Room);
+                        }
+
                     }
-
                 }
             }
         }

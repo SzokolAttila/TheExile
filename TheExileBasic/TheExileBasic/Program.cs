@@ -96,9 +96,9 @@ namespace TheExileBasic
                         Console.Write(" for help\n\n");
 
                         fighter.View(fighter.Room);
-                        Enemy.CheckPositions(fighter);
-                        Item.CheckPositions(fighter);
-                        NPC.CheckPositions(fighter);
+                        Enemy.CheckPositions();
+                        Item.CheckPositions();
+                        NPC.CheckPositions();
                         map = false;
                     }
                 }
@@ -132,9 +132,9 @@ namespace TheExileBasic
                             Console.Write(" for help\n\n");
 
                             fighter.View(fighter.Room);
-                            Enemy.CheckPositions(fighter);
-                            Item.CheckPositions(fighter);
-                            NPC.CheckPositions(fighter);
+                            Enemy.CheckPositions();
+                            Item.CheckPositions();
+                            NPC.CheckPositions();
                             inventory = false;
                         }
                     }
@@ -256,9 +256,9 @@ namespace TheExileBasic
                             Console.Write(" for help\n\n");
 
                             fighter.View(fighter.Room);
-                            Enemy.CheckPositions(fighter);
-                            Item.CheckPositions(fighter);
-                            NPC.CheckPositions(fighter);
+                            Enemy.CheckPositions();
+                            Item.CheckPositions();
+                            NPC.CheckPositions();
                             help = false;
                         }
                     }
@@ -281,15 +281,15 @@ namespace TheExileBasic
                         else Console.WriteLine("No heal potions available!\n");
 
                         fighter.View(fighter.Room);
-                        Enemy.CheckPositions(fighter);
-                        Item.CheckPositions(fighter);
-                        NPC.CheckPositions(fighter);
+                        Enemy.CheckPositions();
+                        Item.CheckPositions();
+                        NPC.CheckPositions();
                     }
                     else if (input == 'e')
                     { 
-                        Enemy.StartCombat(fighter);
-                        Item.PickUp(fighter);
-                        NPC.CollectReward(fighter);
+                        Enemy.StartCombat();
+                        Item.PickUp();
+                        NPC.CollectReward();
                         continue;
 
                     }
@@ -306,9 +306,9 @@ namespace TheExileBasic
                         Console.Write(" for help\n\n");
 
                         fighter.View(fighter.Room);
-                        Enemy.CheckPositions(fighter);
-                        Item.CheckPositions(fighter);
-                        NPC.CheckPositions(fighter);
+                        Enemy.CheckPositions();
+                        Item.CheckPositions();
+                        NPC.CheckPositions();
                         help = false;
                         inventory = false;
                         map = false;
@@ -327,7 +327,7 @@ namespace TheExileBasic
                     Console.ForegroundColor = ConsoleColor.White;
                     break;
                 }
-                NPC.CheckQuest(fighter);
+                NPC.CheckQuest();
 
             } while (input != 'x');
 
