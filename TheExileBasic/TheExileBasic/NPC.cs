@@ -21,8 +21,10 @@ namespace TheExileBasic
         public bool IsCompleted { get; set; }
         public int XP { get; set; }
         public bool HasTalked { get; set; }
+        public string CompletedText { get; set; }
+        public bool Collected { get; set; }
 
-        public NPC(string name, string type, string text, string[,] room, int[] pos, int xp, int[] questPlaceFrom = null, int[] questPlaceTo = null, Item questItem = null, Enemy questEnemy=null, bool iscompleted = false)
+        public NPC(string name, string type, string text, string completedText, string[,] room, int[] pos, int xp, int[] questPlaceFrom = null, int[] questPlaceTo = null, Item questItem = null, Enemy questEnemy=null, bool iscompleted = false)
         {
             this.Name = name;
             this.HasTalked = false;
@@ -35,6 +37,8 @@ namespace TheExileBasic
             this.Pos = pos;
             this.IsCompleted = iscompleted;
             this.XP = xp;
+            this.CompletedText = completedText;
+            this.Collected = false;
 
             room[this.Pos[0], this.Pos[1]] = "?";
 
@@ -51,86 +55,6 @@ namespace TheExileBasic
             }
         }
 
-        public static void CheckPositions()
-        {
-            for (int i = 0; i < Fighter.Fighters.Count; i++)
-            {
-                for (int j = 0; j < Fighter.Fighters[i].NPCs.Count; j++)
-                {
-                    if (Fighter.Fighters[i].Pos[0] == Fighter.Fighters[i].NPCs[j].Pos[0] && Fighter.Fighters[i].Pos[1] == Fighter.Fighters[i].NPCs[j].Pos[1])
-                    {
-                        if (!Fighter.Fighters[i].NPCs[j].IsCompleted)
-                        {
-                            Console.Write("\nHello, my name is " + Fighter.Fighters[i].NPCs[j].Name + ".\n" + Fighter.Fighters[i].NPCs[j].Text + "\nYour task is to ");
-                            switch (Fighter.Fighters[i].NPCs[j].Type)
-                            {
-                                case "place":
-                                    Console.WriteLine("get to a specific place. Signed with the question mark's color.");
-                                    break;
-                                case "enemy":
-                                    Console.WriteLine("kill the " + Fighter.Fighters[i].NPCs[j].QuestEnemy.Name);
-                                    if (!Fighter.Fighters[i].NPCs[j].HasTalked)
-                                    {
-                                        Fighter.Fighters[i].Enemies.Add(Fighter.Fighters[i].NPCs[j].QuestEnemy);
-                                        Room.Rooms[0][Fighter.Fighters[i].NPCs[j].QuestEnemy.Pos[0], Fighter.Fighters[i].NPCs[j].QuestEnemy.Pos[1]] = "!";
-                                    }
-                                    break;
-                                case "item":
-                                    Console.WriteLine("find the " + Fighter.Fighters[i].NPCs[j].QuestItem.Name);
-                                    if (!Fighter.Fighters[i].NPCs[j].HasTalked)
-                                    {
-                                        Fighter.Fighters[i].Items.Add(Fighter.Fighters[i].NPCs[j].QuestItem);
-                                        Room.Rooms[0][Fighter.Fighters[i].NPCs[j].QuestItem.Pos[0], Fighter.Fighters[i].NPCs[j].QuestItem.Pos[1]] = "*";
-                                    }
-                                    break;
-                            }
-                            Console.WriteLine("Come back after you have finished, so you'll gain " + Fighter.Fighters[i].NPCs[j].XP + " EXP in exchange.");
-                            Fighter.Fighters[i].NPCs[j].HasTalked = true;
-                        }
-                        else
-                        {
-                            Console.Write("\nThe quest is ready to hand-in, press");
-                            Console.ForegroundColor = ConsoleColor.Magenta;
-                            Console.Write(" E ");
-                            Console.ForegroundColor = ConsoleColor.White;
-                            Console.WriteLine("to do so.");
-                        }
-                    }
-                }
-            }
-        }
-        public static void CollectReward ()
-        {
-            for (int i = 0; i < Fighter.Fighters.Count; i++)
-            {
-                for (int j = 0; j < Fighter.Fighters[i].NPCs.Count; j++)
-                {
-                    if (Fighter.Fighters[i].NPCs[j].Pos[0] == Fighter.Fighters[i].Pos[0] && Fighter.Fighters[i].NPCs[j].Pos[1] == Fighter.Fighters[i].Pos[1] && Fighter.Fighters[i].NPCs[j].IsCompleted)
-                    {
-                        if (Fighter.Fighters[i].NPCs[j].Type == "item")
-                            Fighter.Fighters[i].Inventory.Remove(Fighter.Fighters[i].NPCs[j].QuestItem);
-
-                        Console.Clear();
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        Console.WriteLine("The Exile\n");
-                        Console.ForegroundColor = ConsoleColor.White;
-
-                        Console.Write("Press ");
-                        Console.ForegroundColor = ConsoleColor.Magenta;
-                        Console.Write("H");
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write(" for help\n\n");
-
-                        Fighter.Fighters[i].View(Room.Rooms[0]);
-
-                        Console.WriteLine("\nYou succesfully completed your mission!\nYou gained " + Fighter.Fighters[i].NPCs[j].XP + " EXP.");
-                        Fighter.Fighters[i].XP += Fighter.Fighters[i].NPCs[j].XP;
-                        Fighter.Fighters[i].Temp = "0";
-                        Fighter.Fighters[i].NPCs.Remove(Fighter.Fighters[i].NPCs[j]);
-                    }
-                }
-            }
-        }
         public static void CheckQuest()
         {
             for (int i = 0; i < Fighter.Fighters.Count; i++)

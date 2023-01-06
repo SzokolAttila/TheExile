@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,10 +13,29 @@ namespace TheExileBasic
     {
         public string[,] Map { get; set; }
         public static List<string[,]> Rooms = new List<string[,]>();
+        public int[] StartPos { get; set; }
 
-        public Room (int row, int col){
-            Map = new string[row, col];
+        public Room (StreamReader sr){
+            int[] matrix = Array.ConvertAll(sr.ReadLine().Split(' '), int.Parse);
+            int row = matrix[0];
+            int col = matrix[1];
+
+            this.StartPos = Array.ConvertAll(sr.ReadLine().Split(' '), int.Parse);
+
+            this.Map = new string[row, col];
             Rooms.Add(Map);
+
+            string[] text = sr.ReadToEnd().Split('\n');
+            for (int i = 0; i < row; i++)
+            {
+                string temp = text[i].Replace("\r", "");
+                for (int j = 0; j < col; j++)
+                {
+                    if (j < temp.Length)
+                        this.Map[i, j] = temp[j].ToString();
+                    else this.Map[i, j] = " ";
+                }
+            }
         }
 
         public void Show(string[,] room)
@@ -31,7 +52,7 @@ namespace TheExileBasic
                             if (quests[k].HasTalked && quests[k].Type == "place" && i >= quests[k].QuestPlaceFrom[0] && j >= quests[k].QuestPlaceFrom[1] && i <= quests[k].QuestPlaceTo[0] && j <= quests[k].QuestPlaceTo[1])
                                 Console.BackgroundColor = ConsoleColor.DarkMagenta;
                         }
-                        Color.PickColor(room[i, j]);
+                        Color.PickColor(room[i, j], Fighter.Fighters[h].Temp);
                         Console.Write(room[i, j]);
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.BackgroundColor = ConsoleColor.Black;
