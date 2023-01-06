@@ -8,12 +8,23 @@ namespace TheExileBasic
 {
     internal class Color
     {
-        public static void PickColor (string currChar)
+        public static void PickColor (string currChar, string temp)
         {
             switch (currChar)
             {
                 case "X":
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    switch (temp)
+                    {
+                        case "!":
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            break;
+                        case "*":
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                            break;
+                        default:
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            break;
+                    }
                     break;
                 case "0":
                     Console.ForegroundColor = ConsoleColor.DarkGray;

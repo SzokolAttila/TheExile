@@ -27,7 +27,7 @@ namespace TheExileBasic
         public List<Item> Consumables { get; set; }
         public List<string> ConsumableNames { get; set; }
 
-        public Fighter(int range, int[] pos, int attack, int hp)
+        public Fighter(int range, int[] pos, int attack, int hp, string[,] room)
         {
             this.Moved = true;
             this.Inventory = new List<Item>();
@@ -41,13 +41,17 @@ namespace TheExileBasic
             this.XP = 0;
             this.MaxHP = hp;
             this.PrevPos = pos;
+
             Enemies = new List<Enemy>();
             Items = new List<Item>();
             NPCs = new List<NPC>();
+
             Fighters.Add(this);
+            this.Temp = room[pos[0], pos[1]];
+            room[pos[0], pos[1]] = "X";
         }
 
-        public string[,] Move(char direction, string[,] room)
+        public string[,] Move(ConsoleKey direction, string[,] room)
         {
             room[this.Pos[0], this.Pos[1]] = this.Temp;
             int[] startPos = new int[] { this.Pos[0], this.Pos[1] };
@@ -55,20 +59,20 @@ namespace TheExileBasic
 
             switch (direction)
             {
-                case 's':
-                    if (this.Pos[0] < room.GetLength(0) - 1 && room[this.Pos[0] + 1, this.Pos[1]] != "M" && (room[this.Pos[0] + 1, this.Pos[1]] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0] + 1, this.Pos[1]] != " " && (this.Temp != "!" || (this.Pos[0] + 1 == this.PrevPos[0] && this.Pos[1] == this.PrevPos[1])))
+                case ConsoleKey.S:
+                    if (this.Pos[0] < room.GetLength(0) - 1 && room[this.Pos[0] + 1, this.Pos[1]] != "M" && room[this.Pos[0] + 1, this.Pos[1]] != "?" && (room[this.Pos[0] + 1, this.Pos[1]] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0] + 1, this.Pos[1]] != " " && (this.Temp != "!" || (this.Pos[0] + 1 == this.PrevPos[0] && this.Pos[1] == this.PrevPos[1])))
                         this.Pos[0]++;
                     break;
-                case 'w':
-                    if (this.Pos[0] > 0 && room[this.Pos[0] - 1, this.Pos[1]] != "M" && (room[this.Pos[0] - 1, this.Pos[1]] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0] - 1, this.Pos[1]] != " " && (this.Temp != "!" || (this.Pos[0] - 1 == this.PrevPos[0] && this.Pos[1] == this.PrevPos[1])))
+                case ConsoleKey.W:
+                    if (this.Pos[0] > 0 && room[this.Pos[0] - 1, this.Pos[1]] != "M" && room[this.Pos[0] - 1, this.Pos[1]] != "?" && (room[this.Pos[0] - 1, this.Pos[1]] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0] - 1, this.Pos[1]] != " " && (this.Temp != "!" || (this.Pos[0] - 1 == this.PrevPos[0] && this.Pos[1] == this.PrevPos[1])))
                         this.Pos[0]--;
                     break;
-                case 'a':
-                    if (this.Pos[1] > 0 && room[this.Pos[0], this.Pos[1] - 1] != "M" && (room[this.Pos[0], this.Pos[1] - 1] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0], this.Pos[1] - 1] != " " && (this.Temp != "!" || (this.Pos[0] == this.PrevPos[0] && this.Pos[1] - 1 == this.PrevPos[1])))
+                case ConsoleKey.A:
+                    if (this.Pos[1] > 0 && room[this.Pos[0], this.Pos[1] - 1] != "M" && room[this.Pos[0], this.Pos[1] - 1] != "?" && (room[this.Pos[0], this.Pos[1] - 1] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0], this.Pos[1] - 1] != " " && (this.Temp != "!" || (this.Pos[0] == this.PrevPos[0] && this.Pos[1] - 1 == this.PrevPos[1])))
                         this.Pos[1]--;
                     break;
-                case 'd':
-                    if (this.Pos[1] < room.GetLength(1) - 1 && room[this.Pos[0], this.Pos[1] + 1] != "M" && (room[this.Pos[0], this.Pos[1] + 1] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0], this.Pos[1] + 1] != " " && (this.Temp != "!" || (this.Pos[0] == this.PrevPos[0] && this.Pos[1] + 1 == this.PrevPos[1])))
+                case ConsoleKey.D:
+                    if (this.Pos[1] < room.GetLength(1) - 1 && room[this.Pos[0], this.Pos[1] + 1] != "M" && room[this.Pos[0], this.Pos[1] + 1] != "?" && (room[this.Pos[0], this.Pos[1] + 1] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0], this.Pos[1] + 1] != " " && (this.Temp != "!" || (this.Pos[0] == this.PrevPos[0] && this.Pos[1] + 1 == this.PrevPos[1])))
                         this.Pos[1]++;
                     break;
                 default:
@@ -80,7 +84,6 @@ namespace TheExileBasic
             {
                 this.Moved = true;
                 Thread.Sleep(1);
-                Console.Clear();
                 this.PrevPos = startPos;
             }
 
@@ -89,12 +92,6 @@ namespace TheExileBasic
             {
                 case "~":
                     room[this.Pos[0], this.Pos[1]] = "B";
-                    break;
-                case "*":
-                    room[this.Pos[0], this.Pos[1]] = "I";
-                    break;
-                case "!":
-                    room[this.Pos[0], this.Pos[1]] = "E";
                     break;
                 case "?":
                     room[this.Pos[0], this.Pos[1]] = "N";
@@ -105,15 +102,6 @@ namespace TheExileBasic
             }
             
             return room;
-        }
-
-        static int Limit(int min, int max, int value)
-        {
-            if (value > max)
-                return max;
-            else if (value < min)
-                return min;
-            else return value;
         }
 
         public void View(string[,] room)
@@ -132,8 +120,8 @@ namespace TheExileBasic
                             if (quests[k].HasTalked && quests[k].Type == "place" && this.Pos[0]+i >= quests[k].QuestPlaceFrom[0] && this.Pos[1] + j >= quests[k].QuestPlaceFrom[1] && this.Pos[0] + i <= quests[k].QuestPlaceTo[0] && this.Pos[1] + j <= quests[k].QuestPlaceTo[1])
                                 Console.BackgroundColor = ConsoleColor.DarkMagenta;
                         }
-                        Color.PickColor(room[currI, currJ]);
-                        Console.SetCursorPosition(Fighter.Limit(0, Console.WindowWidth - 5 + j, this.Pos[1] + j), Fighter.Limit(0, Console.WindowHeight - 6 + i, this.Pos[0] + i + 4));
+                        Color.PickColor(room[currI, currJ], this.Temp);
+                        Console.SetCursorPosition(Limit.Check(0, Console.WindowWidth - 5 + j, this.Pos[1] + j), Limit.Check(0, Console.WindowHeight - 6 + i, this.Pos[0] + i + 4));
                         Console.Write(room[this.Pos[0] + i, this.Pos[1] + j]);
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.BackgroundColor = ConsoleColor.Black;
