@@ -19,12 +19,12 @@ namespace TheExileBasic
         public string Text { get; set; }
         public int[] Pos { get; set; }
         public bool IsCompleted { get; set; }
-        public int XP { get; set; }
+        public int Gold { get; set; }
         public bool HasTalked { get; set; }
         public string CompletedText { get; set; }
         public bool Collected { get; set; }
 
-        public NPC(string name, string type, string text, string completedText, string[,] room, int[] pos, int xp, int[] questPlaceFrom = null, int[] questPlaceTo = null, Item questItem = null, Enemy questEnemy=null, bool iscompleted = false)
+        public NPC(string name, string type, string text, string completedText, string[,] room, int[] pos, int gold, int[] questPlaceFrom = null, int[] questPlaceTo = null, Item questItem = null, Enemy questEnemy=null, bool iscompleted = false)
         {
             this.Name = name;
             this.HasTalked = false;
@@ -36,7 +36,7 @@ namespace TheExileBasic
             this.QuestEnemy = questEnemy;
             this.Pos = pos;
             this.IsCompleted = iscompleted;
-            this.XP = xp;
+            this.Gold = gold;
             this.CompletedText = completedText;
             this.Collected = false;
 

@@ -19,6 +19,7 @@ namespace TheExileBasic
                         int[] result = Fighter.Fighters[i].Enemies[j].Combat(Fighter.Fighters[i]);
                         Fighter.Fighters[i].HP = result[0];
                         Fighter.Fighters[i].XP += result[1];
+                        Fighter.Fighters[i].OverallXP += result[1];
                         Fighter.Fighters[i].Temp = "0";
                         Fighter.Fighters[i].Enemies.Remove(Fighter.Fighters[i].Enemies[j]);
 
@@ -79,8 +80,8 @@ namespace TheExileBasic
 
                         Fighter.Fighters[i].View(Room.Rooms[0]);
 
-                        Console.WriteLine("\nYou succesfully completed your mission!\nYou gained " + Fighter.Fighters[i].NPCs[j].XP + " EXP.");
-                        Fighter.Fighters[i].XP += Fighter.Fighters[i].NPCs[j].XP;
+                        Console.WriteLine("\nYou succesfully completed your mission!\nYou gained " + Fighter.Fighters[i].NPCs[j].Gold + " gold.");
+                        Fighter.Fighters[i].Gold += Fighter.Fighters[i].NPCs[j].Gold;
                     }
                 }
             }

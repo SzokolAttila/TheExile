@@ -54,7 +54,7 @@ namespace TheExileBasic
 
                 Menus.Header();
                 Menus.Combat(this.Name, currentHP, this.HP, fighter.HP, fighter.MaxHP, fighter.Attack, this.AP);
-                Console.WriteLine($"It's {this.Name}'s turn.");
+                Console.WriteLine($"It's the {this.Name}'s turn.");
 
                 fighter.HP -= this.AP;
                 if (fighter.HP <= 0)

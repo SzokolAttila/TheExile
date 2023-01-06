@@ -121,7 +121,7 @@ namespace TheExileBasic
                                     }
                                     break;
                             }
-                            Console.WriteLine("Come back after you have finished, so you'll gain " + Fighter.Fighters[i].NPCs[j].XP + " EXP in exchange.");
+                            Console.WriteLine("Come back after you have finished, so you'll gain " + Fighter.Fighters[i].NPCs[j].Gold + " gold in exchange.");
                             Fighter.Fighters[i].NPCs[j].HasTalked = true;
                         }
                         else

@@ -45,6 +45,8 @@ namespace TheExileBasic
 
             do
             {
+                LevelSystem.CheckLevel(fighter);
+
                 Input.ClearKeyBuffer();
                 input = Console.ReadKey(true).Key;
                 if (!(map || help || inventory))
@@ -77,7 +79,7 @@ namespace TheExileBasic
 
                         if (!inventory)
                         {
-                            Console.WriteLine($"Your stats:\nHP:\t{fighter.HP} / {fighter.MaxHP}\nAttack:\t{fighter.Attack}\nEXP:\t{fighter.XP}\nInventory:\t{String.Join(", ", fighter.Names)}\nConsumables:\t{String.Join(", ", fighter.ConsumableNames)}");
+                            Console.WriteLine($"Your stats:\nHP:\t{fighter.HP} / {fighter.MaxHP}\nAttack:\t{fighter.Attack}\nGold:\t{fighter.Gold}\nLevel:\t{fighter.Level}\nEXP:\t{fighter.XP} / {LevelSystem.LevelCap[fighter.Level - 1]}\nInventory:\t{String.Join(", ", fighter.Names)}\nConsumables:\t{String.Join(", ", fighter.ConsumableNames)}");
                             inventory = true;
                             map = false;
                             help = false;
@@ -169,7 +171,7 @@ namespace TheExileBasic
                     Menus.Header();
 
                     Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine($"\nGame Over! You died with {fighter.XP} XP.");
+                    Console.WriteLine($"\nGame Over! You died with {fighter.OverallXP} XP.");
                     Console.ForegroundColor = ConsoleColor.White;
                     break;
                 }

@@ -9,6 +9,7 @@ namespace TheExileBasic
 {
     class Fighter
     {
+        public int OverallXP { get; set; }
         public static List<Fighter> Fighters = new List<Fighter>();
         public List<Enemy> Enemies { get; set; }
         public List<Item> Items { get; set; }
@@ -21,7 +22,9 @@ namespace TheExileBasic
         public int Attack { get; set; }
         public int HP { get; set; }
         public int MaxHP { get; set; }
+        public int Gold { get; set; }
         public int XP { get; set; }
+        public int Level { get; set; }
         public bool Moved { get; set; }
         public int[] PrevPos { get; set; }
         public List<Item> Consumables { get; set; }
@@ -29,6 +32,8 @@ namespace TheExileBasic
 
         public Fighter(int range, int[] pos, int attack, int hp, string[,] room)
         {
+            this.Level = 1;
+            this.Gold = 0;
             this.Moved = true;
             this.Inventory = new List<Item>();
             this.Consumables = new List<Item>();
@@ -37,11 +42,11 @@ namespace TheExileBasic
             this.Range = range;
             this.Pos = pos;
             this.Attack = attack;
+            this.OverallXP = 0;
             this.HP = hp;
             this.XP = 0;
             this.MaxHP = hp;
             this.PrevPos = pos;
-
             Enemies = new List<Enemy>();
             Items = new List<Item>();
             NPCs = new List<NPC>();
