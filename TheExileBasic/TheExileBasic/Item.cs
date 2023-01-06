@@ -28,6 +28,7 @@ namespace TheExileBasic
             this.HP = hp;
             this.Range = range;
             this.Heal = heal;
+
             room[this.Pos[0], this.Pos[1]] = "*";
             for (int i = 0; i < Fighter.Fighters.Count; i++)
                 Fighter.Fighters[i].Items.Add(this);

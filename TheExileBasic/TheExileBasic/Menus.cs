@@ -8,6 +8,12 @@ namespace TheExileBasic
 {
     internal class Menus
     {
+        public static void CloseMenu(bool primary, bool secondary1, bool secondary2)
+        {
+            primary = true;
+            secondary1 = false;
+            secondary2 = false;
+        }
         public static void Help()
         {
             Console.Write("Movement: ");
@@ -119,6 +125,55 @@ namespace TheExileBasic
             Console.Write("H");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write(" for help\n\n");
+        }
+
+        public static void Inventory(Fighter fighter)
+        {
+            Console.Write("Your stats:\nHP:\t");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(fighter.HP + " / " + fighter.MaxHP);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("Attack:\t");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(fighter.Attack);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("Gold:\t");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine(fighter.Gold);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("Level:\t");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine(fighter.Level);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("XP:\t");
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.WriteLine(fighter.XP + " / " + LevelSystem.LevelCap[fighter.Level - 1]);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("Inventory:\t");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine(String.Join(", ", fighter.Names));
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("Consumables:\t");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine(String.Join(", ", fighter.ConsumableNames));
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public static void CheckHeal(Item potion, Fighter fighter)
+        {
+            if (fighter.Consumables.Contains(potion))
+                UseHeal(potion, fighter);
+            else Console.WriteLine("No heal potions available!\n");
+        }
+
+        private static void UseHeal (Item potion, Fighter fighter)
+        {
+            if (fighter.HP + potion.Heal > fighter.MaxHP)
+                fighter.HP = fighter.MaxHP;
+            else fighter.HP += potion.Heal;
+            Console.WriteLine($"Healed player for {potion.Heal} HP.\n");
+            fighter.Consumables.Remove(potion);
+            fighter.ConsumableNames.Remove(potion.Name);
         }
     }
 }

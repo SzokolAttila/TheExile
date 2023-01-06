@@ -9,13 +9,14 @@ namespace TheExileBasic
 {
     class Fighter
     {
-        public int OverallXP { get; set; }
         public static List<Fighter> Fighters = new List<Fighter>();
         public List<Enemy> Enemies { get; set; }
         public List<Item> Items { get; set; }
         public List<NPC> NPCs { get; set; }
         public List<Item> Inventory { get; set; }
         public List<string> Names { get; set; }
+        public List<Item> Consumables { get; set; }
+        public List<string> ConsumableNames { get; set; }
         public string Temp { get; set; }
         public int Range { get; set; }
         public int[] Pos { get; set; }
@@ -24,11 +25,10 @@ namespace TheExileBasic
         public int MaxHP { get; set; }
         public int Gold { get; set; }
         public int XP { get; set; }
+        public int OverallXP { get; set; }
         public int Level { get; set; }
         public bool Moved { get; set; }
-        public int[] PrevPos { get; set; }
-        public List<Item> Consumables { get; set; }
-        public List<string> ConsumableNames { get; set; }
+        private int[] PrevPos { get; set; }
 
         public Fighter(int range, int[] pos, int attack, int hp, string[,] room)
         {
@@ -65,20 +65,16 @@ namespace TheExileBasic
             switch (direction)
             {
                 case ConsoleKey.S:
-                    if (this.Pos[0] < room.GetLength(0) - 1 && room[this.Pos[0] + 1, this.Pos[1]] != "M" && room[this.Pos[0] + 1, this.Pos[1]] != "?" && (room[this.Pos[0] + 1, this.Pos[1]] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0] + 1, this.Pos[1]] != " " && (this.Temp != "!" || (this.Pos[0] + 1 == this.PrevPos[0] && this.Pos[1] == this.PrevPos[1])))
-                        this.Pos[0]++;
+                    CheckMovement(room, 0, 0, 1);
                     break;
                 case ConsoleKey.W:
-                    if (this.Pos[0] > 0 && room[this.Pos[0] - 1, this.Pos[1]] != "M" && room[this.Pos[0] - 1, this.Pos[1]] != "?" && (room[this.Pos[0] - 1, this.Pos[1]] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0] - 1, this.Pos[1]] != " " && (this.Temp != "!" || (this.Pos[0] - 1 == this.PrevPos[0] && this.Pos[1] == this.PrevPos[1])))
-                        this.Pos[0]--;
+                    CheckMovement(room, 0, 0, -1);
                     break;
                 case ConsoleKey.A:
-                    if (this.Pos[1] > 0 && room[this.Pos[0], this.Pos[1] - 1] != "M" && room[this.Pos[0], this.Pos[1] - 1] != "?" && (room[this.Pos[0], this.Pos[1] - 1] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0], this.Pos[1] - 1] != " " && (this.Temp != "!" || (this.Pos[0] == this.PrevPos[0] && this.Pos[1] - 1 == this.PrevPos[1])))
-                        this.Pos[1]--;
+                    CheckMovement(room, 1, -1, 0);
                     break;
                 case ConsoleKey.D:
-                    if (this.Pos[1] < room.GetLength(1) - 1 && room[this.Pos[0], this.Pos[1] + 1] != "M" && room[this.Pos[0], this.Pos[1] + 1] != "?" && (room[this.Pos[0], this.Pos[1] + 1] != "~" || this.Names.Contains("Boat")) && room[this.Pos[0], this.Pos[1] + 1] != " " && (this.Temp != "!" || (this.Pos[0] == this.PrevPos[0] && this.Pos[1] + 1 == this.PrevPos[1])))
-                        this.Pos[1]++;
+                    CheckMovement(room, 1, 1, 0);
                     break;
                 default:
                     break;
@@ -109,32 +105,11 @@ namespace TheExileBasic
             return room;
         }
 
-        public void View(string[,] room)
+        private void CheckMovement(string[,] room, int index, int directionX, int directionY)
         {
-            List<NPC> quests = this.NPCs;
-            for (int i = -this.Range; i <= this.Range; i++)
-            {
-                for (int j = -this.Range; j <= this.Range; j++)
-                {
-                    int currI = this.Pos[0] + i;
-                    int currJ = this.Pos[1] + j;
-                    if (currI >= 0 && currI < room.GetLength(0) && currJ >= 0 && currJ < room.GetLength(1))
-                    {
-                        for (int k = 0; k  < quests.Count; k++)
-                        {
-                            if (quests[k].HasTalked && quests[k].Type == "place" && this.Pos[0]+i >= quests[k].QuestPlaceFrom[0] && this.Pos[1] + j >= quests[k].QuestPlaceFrom[1] && this.Pos[0] + i <= quests[k].QuestPlaceTo[0] && this.Pos[1] + j <= quests[k].QuestPlaceTo[1])
-                                Console.BackgroundColor = ConsoleColor.DarkMagenta;
-                        }
-                        Color.PickColor(room[currI, currJ], this.Temp);
-                        Console.SetCursorPosition(Limit.Check(0, Console.WindowWidth - 5 + j, this.Pos[1] + j), Limit.Check(0, Console.WindowHeight - 6 + i, this.Pos[0] + i + 4));
-                        Console.Write(room[this.Pos[0] + i, this.Pos[1] + j]);
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.BackgroundColor = ConsoleColor.Black;
-                    }
-                    else Console.Write(" ");
-                }
-                Console.WriteLine();
-            }
+            string nextTile = room[this.Pos[0] + directionY, this.Pos[1] + directionX];
+            if (this.Pos[index] > 0 && this.Pos[index] < room.GetLength(index) && nextTile != "M" && nextTile != "?" && (nextTile != "~" || this.Names.Contains("Boat")) && nextTile != " " && (this.Temp != "!" || (this.Pos[0] + directionY == this.PrevPos[0] && this.Pos[1] + directionX == this.PrevPos[1])))
+                this.Pos[index] += directionX + directionY;
         }
     }
 }

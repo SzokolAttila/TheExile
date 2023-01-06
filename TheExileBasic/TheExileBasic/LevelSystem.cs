@@ -26,7 +26,6 @@ namespace TheExileBasic
             int bonusHP = Convert.ToInt32(Math.Ceiling(fighter.MaxHP * 0.05));
             fighter.MaxHP += bonusHP;
             fighter.HP += bonusHP;
-            CheckLevel(fighter);
         }
     }
 }

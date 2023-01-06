@@ -109,7 +109,7 @@ namespace TheExileBasic
                                     if (!Fighter.Fighters[i].NPCs[j].HasTalked)
                                     {
                                         Fighter.Fighters[i].Enemies.Add(Fighter.Fighters[i].NPCs[j].QuestEnemy);
-                                        Room.Rooms[0][Fighter.Fighters[i].NPCs[j].QuestEnemy.Pos[0], Fighter.Fighters[i].NPCs[j].QuestEnemy.Pos[1]] = "!";
+                                        Room.Rooms[0].Map[Fighter.Fighters[i].NPCs[j].QuestEnemy.Pos[0], Fighter.Fighters[i].NPCs[j].QuestEnemy.Pos[1]] = "!";
                                     }
                                     break;
                                 case "item":
@@ -117,7 +117,7 @@ namespace TheExileBasic
                                     if (!Fighter.Fighters[i].NPCs[j].HasTalked)
                                     {
                                         Fighter.Fighters[i].Items.Add(Fighter.Fighters[i].NPCs[j].QuestItem);
-                                        Room.Rooms[0][Fighter.Fighters[i].NPCs[j].QuestItem.Pos[0], Fighter.Fighters[i].NPCs[j].QuestItem.Pos[1]] = "*";
+                                        Room.Rooms[0].Map[Fighter.Fighters[i].NPCs[j].QuestItem.Pos[0], Fighter.Fighters[i].NPCs[j].QuestItem.Pos[1]] = "*";
                                     }
                                     break;
                             }

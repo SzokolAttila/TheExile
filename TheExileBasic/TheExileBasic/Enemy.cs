@@ -21,6 +21,7 @@ namespace TheExileBasic
             this.XP = xp;
             this.Name = name;
             this.Pos = pos;
+
             room[this.Pos[0], this.Pos[1]] = "!";
             for (int i = 0; i < Fighter.Fighters.Count; i++)
                 Fighter.Fighters[i].Enemies.Add(this);

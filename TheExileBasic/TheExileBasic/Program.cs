@@ -52,114 +52,14 @@ namespace TheExileBasic
                 if (!(map || help || inventory))
                     start.Map = fighter.Move(input, start.Map);
 
-                switch (input)
-                {
-                    case ConsoleKey.M:
-                        Menus.Header();
-
-                        if (!map)
-                        {
-                            start.Show(start.Map);
-                            map = true;
-                            help = false;
-                            inventory = false;
-                        }
-                        else
-                        {
-                            Menus.PressH();
-
-                            fighter.View(start.Map);
-                            Positions.Check();
-                            map = false;
-                        }
-                        break;
-
-                    case ConsoleKey.I:
-                        Menus.Header();
-
-                        if (!inventory)
-                        {
-                            Console.WriteLine($"Your stats:\nHP:\t{fighter.HP} / {fighter.MaxHP}\nAttack:\t{fighter.Attack}\nGold:\t{fighter.Gold}\nLevel:\t{fighter.Level}\nEXP:\t{fighter.XP} / {LevelSystem.LevelCap[fighter.Level - 1]}\nInventory:\t{String.Join(", ", fighter.Names)}\nConsumables:\t{String.Join(", ", fighter.ConsumableNames)}");
-                            inventory = true;
-                            map = false;
-                            help = false;
-                        }
-                        else
-                        {
-                            Menus.PressH();
-
-                            fighter.View(start.Map);
-                            Positions.Check();
-                            inventory = false;
-                        }
-                        break;
-
-                    case ConsoleKey.H:
-                        Menus.Header();
-
-                        if (!help)
-                        {
-                            Menus.Help();
-                            help = true;
-                            map = false;
-                            inventory = false;
-                        }
-                        else
-                        {
-                            Menus.PressH();
-
-                            fighter.View(start.Map);
-                            Positions.Check();
-                            help = false;
-                        }
-                        break;
-
-                    case ConsoleKey.U:
-                        Menus.Header();
-
-                        if (fighter.Consumables.Contains(potion))
-                        {
-                            if (fighter.HP + potion.Heal > fighter.MaxHP)
-                                fighter.HP = fighter.MaxHP;
-                            else fighter.HP += potion.Heal;
-                            Console.WriteLine($"Healed player for {potion.Heal} HP.\n");
-                            fighter.Consumables.Remove(potion);
-                            fighter.ConsumableNames.Remove(potion.Name);
-                        }
-                        else Console.WriteLine("No heal potions available!\n");
-
-                        fighter.View(start.Map);
-                        Positions.Check();
-                        break;
-
-                    case ConsoleKey.E:
-                        Interactions.Interact();
-                        continue;
-
-                    case ConsoleKey.Escape:
-                        if (inventory || map || help)
-                        {
-                            Menus.Header();
-                            Menus.PressH();
-
-                            fighter.View(start.Map);
-                            Positions.Check();
-                            inventory = false;
-                            map = false;
-                            help = false;
-                        }
-                        break;
-
-                    default:
-                        break;
-                }
+                DetectInput.FindKeyPressed(input, map, help, inventory, start, fighter, potion);
 
                 if (fighter.Moved)
                 {
                     Menus.Header();
                     Menus.PressH();
 
-                    fighter.View(start.Map);
+                    start.View(fighter);
                     Positions.Check();
                     help = false;
                     inventory = false;

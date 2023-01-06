@@ -32,8 +32,8 @@ namespace TheExileBasic
                             Menus.Header();
                             Menus.PressH();
 
-                            Room.Rooms[0][Fighter.Fighters[i].Pos[0], Fighter.Fighters[i].Pos[1]] = "X";
-                            Fighter.Fighters[i].View(Room.Rooms[0]);
+                            Room.Rooms[0].Map[Fighter.Fighters[i].Pos[0], Fighter.Fighters[i].Pos[1]] = "X";
+                            Room.Rooms[0].View(Fighter.Fighters[i]);
                         }
 
                     }
@@ -45,8 +45,8 @@ namespace TheExileBasic
                     {
                         Menus.Header();
 
-                        Room.Rooms[0][Fighter.Fighters[i].Pos[0], Fighter.Fighters[i].Pos[1]] = "X";
-                        Fighter.Fighters[i].View(Room.Rooms[0]);
+                        Room.Rooms[0].Map[Fighter.Fighters[i].Pos[0], Fighter.Fighters[i].Pos[1]] = "X";
+                        Room.Rooms[0].View(Fighter.Fighters[i]);
 
                         Console.WriteLine($"\n{Fighter.Fighters[i].Items[j].Name} successfully obtained.");
 
@@ -78,7 +78,7 @@ namespace TheExileBasic
                         Menus.Header();
                         Menus.PressH();
 
-                        Fighter.Fighters[i].View(Room.Rooms[0]);
+                        Room.Rooms[0].View(Fighter.Fighters[i]);
 
                         Console.WriteLine("\nYou succesfully completed your mission!\nYou gained " + Fighter.Fighters[i].NPCs[j].Gold + " gold.");
                         Fighter.Fighters[i].Gold += Fighter.Fighters[i].NPCs[j].Gold;
