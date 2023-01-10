@@ -107,9 +107,12 @@ namespace TheExileBasic
 
         private void CheckMovement(string[,] room, int index, int directionX, int directionY)
         {
-            string nextTile = room[this.Pos[0] + directionY, this.Pos[1] + directionX];
-            if (this.Pos[index] > 0 && this.Pos[index] < room.GetLength(index) && nextTile != "M" && nextTile != "?" && (nextTile != "~" || this.Names.Contains("Boat")) && nextTile != " " && (this.Temp != "!" || (this.Pos[0] + directionY == this.PrevPos[0] && this.Pos[1] + directionX == this.PrevPos[1])))
-                this.Pos[index] += directionX + directionY;
+            if (this.Pos[index] + directionY + directionX >= 0 && this.Pos[index] + directionX + directionY < room.GetLength(index))
+            {
+                string nextTile = room[this.Pos[0] + directionY, this.Pos[1] + directionX];
+                if (nextTile != "M" && nextTile != "?" && (nextTile != "~" || this.Names.Contains("Boat")) && nextTile != " " && (this.Temp != "!" || (this.Pos[0] + directionY == this.PrevPos[0] && this.Pos[1] + directionX == this.PrevPos[1])))
+                    this.Pos[index] += directionX + directionY;
+            }
         }
     }
 }

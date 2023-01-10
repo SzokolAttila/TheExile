@@ -159,7 +159,7 @@ namespace TheExileBasic
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public static void CheckHeal(Item potion, Fighter fighter)
+        public static void CheckHeal (Item potion, Fighter fighter)
         {
             if (fighter.Consumables.Contains(potion))
                 UseHeal(potion, fighter);
