@@ -42,27 +42,24 @@ namespace TheExileBasic
                 }
             }
         }
-        public void Show(string[,] room)
+        public void Show(Fighter fighter)
         {
-            for (int h = 0; h < Fighter.Fighters.Count; h++)
+            List<NPC> quests = fighter.NPCs;
+            for (int i = 0; i < this.Map.GetLength(0); i++)
             {
-                List<NPC> quests = Fighter.Fighters[h].NPCs;
-                for (int i = 0; i < room.GetLength(0); i++)
+                for (int j = 0; j < this.Map.GetLength(1); j++)
                 {
-                    for (int j = 0; j < room.GetLength(1); j++)
+                    for (int k = 0; k < quests.Count; k++)
                     {
-                        for (int k = 0; k < quests.Count; k++)
-                        {
-                            if (quests[k].HasTalked && quests[k].Type == "place" && i >= quests[k].QuestPlaceFrom[0] && j >= quests[k].QuestPlaceFrom[1] && i <= quests[k].QuestPlaceTo[0] && j <= quests[k].QuestPlaceTo[1])
-                                Console.BackgroundColor = ConsoleColor.DarkMagenta;
-                        }
-                        Color.PickColor(room[i, j], Fighter.Fighters[h].Temp);
-                        Console.Write(room[i, j]);
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.BackgroundColor = ConsoleColor.Black;
+                        if (!quests[k].Collected && quests[k].HasTalked && quests[k].Type == "place" && i >= quests[k].QuestPlaceFrom[0] && j >= quests[k].QuestPlaceFrom[1] && i <= quests[k].QuestPlaceTo[0] && j <= quests[k].QuestPlaceTo[1])
+                            Console.BackgroundColor = ConsoleColor.DarkMagenta;
                     }
-                    Console.WriteLine();
+                    Color.PickColor(this.Map[i, j], fighter.Temp);
+                    Console.Write(this.Map[i, j]);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.Black;
                 }
+                Console.WriteLine();
             }
         }
 
@@ -79,7 +76,7 @@ namespace TheExileBasic
                     {
                         for (int k = 0; k < quests.Count; k++)
                         {
-                            if (quests[k].HasTalked && quests[k].Type == "place" && fighter.Pos[0] + i >= quests[k].QuestPlaceFrom[0] && fighter.Pos[1] + j >= quests[k].QuestPlaceFrom[1] && fighter.Pos[0] + i <= quests[k].QuestPlaceTo[0] && fighter.Pos[1] + j <= quests[k].QuestPlaceTo[1])
+                            if (!quests[k].Collected && quests[k].HasTalked && quests[k].Type == "place" && fighter.Pos[0] + i >= quests[k].QuestPlaceFrom[0] && fighter.Pos[1] + j >= quests[k].QuestPlaceFrom[1] && fighter.Pos[0] + i <= quests[k].QuestPlaceTo[0] && fighter.Pos[1] + j <= quests[k].QuestPlaceTo[1])
                                 Console.BackgroundColor = ConsoleColor.DarkMagenta;
                         }
                         Color.PickColor(this.Map[currI, currJ], fighter.Temp);

@@ -134,7 +134,6 @@ namespace TheExileBasic
                                 Console.Write(" E ");
                                 Console.ForegroundColor = ConsoleColor.White;
                                 Console.WriteLine("to do so.");
-                                Fighter.Fighters[i].NPCs[j].Collected = true;
                             }
                         }
                     }

@@ -21,7 +21,7 @@ namespace TheExileBasic
 
                     if (!Map)
                     {
-                        start.Show(start.Map);
+                        start.Show(fighter);
                         Map = true;
                         Inventory = false;
                         Help = false;

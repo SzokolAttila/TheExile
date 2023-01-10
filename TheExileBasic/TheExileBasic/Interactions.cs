@@ -70,7 +70,7 @@ namespace TheExileBasic
 
                 for (int j = 0; j < Fighter.Fighters[i].NPCs.Count; j++)
                 {
-                    if (((Fighter.Fighters[i].Pos[0] - 1 == Fighter.Fighters[i].NPCs[j].Pos[0] || Fighter.Fighters[i].Pos[0] + 1 == Fighter.Fighters[i].NPCs[j].Pos[0]) && Fighter.Fighters[i].Pos[1] == Fighter.Fighters[i].NPCs[j].Pos[1]) || ((Fighter.Fighters[i].Pos[1] - 1 == Fighter.Fighters[i].NPCs[j].Pos[1] || Fighter.Fighters[i].Pos[1] + 1 == Fighter.Fighters[i].NPCs[j].Pos[1]) && Fighter.Fighters[i].Pos[0] == Fighter.Fighters[i].NPCs[j].Pos[0]) && Fighter.Fighters[i].NPCs[j].IsCompleted)
+                    if ((((Fighter.Fighters[i].Pos[0] - 1 == Fighter.Fighters[i].NPCs[j].Pos[0] || Fighter.Fighters[i].Pos[0] + 1 == Fighter.Fighters[i].NPCs[j].Pos[0]) && Fighter.Fighters[i].Pos[1] == Fighter.Fighters[i].NPCs[j].Pos[1]) || ((Fighter.Fighters[i].Pos[1] - 1 == Fighter.Fighters[i].NPCs[j].Pos[1] || Fighter.Fighters[i].Pos[1] + 1 == Fighter.Fighters[i].NPCs[j].Pos[1]) && Fighter.Fighters[i].Pos[0] == Fighter.Fighters[i].NPCs[j].Pos[0])) && Fighter.Fighters[i].NPCs[j].IsCompleted && !Fighter.Fighters[i].NPCs[j].Collected)
                     {
                         if (Fighter.Fighters[i].NPCs[j].Type == "item")
                             Fighter.Fighters[i].Inventory.Remove(Fighter.Fighters[i].NPCs[j].QuestItem);
@@ -82,6 +82,7 @@ namespace TheExileBasic
 
                         Console.WriteLine("\nYou succesfully completed your mission!\nYou gained " + Fighter.Fighters[i].NPCs[j].Gold + " gold.");
                         Fighter.Fighters[i].Gold += Fighter.Fighters[i].NPCs[j].Gold;
+                        Fighter.Fighters[i].NPCs[j].Collected = true;
                     }
                 }
             }
