@@ -98,7 +98,7 @@ namespace TheExileBasic
                     {
                         if (!Fighter.Fighters[i].NPCs[j].IsCompleted)
                         {
-                            Console.Write("\nHello, my name is " + Fighter.Fighters[i].NPCs[j].Name + ".\n" + Fighter.Fighters[i].NPCs[j].Text + "\nYour task is to ");
+                            Console.Write("\nWelcome, traveler! I am " + Fighter.Fighters[i].NPCs[j].Name + ".\n" + Fighter.Fighters[i].NPCs[j].Text + "\nYour task is to ");
                             switch (Fighter.Fighters[i].NPCs[j].Type)
                             {
                                 case "place":
@@ -121,7 +121,7 @@ namespace TheExileBasic
                                     }
                                     break;
                             }
-                            Console.WriteLine("Come back after you have finished, so you'll gain " + Fighter.Fighters[i].NPCs[j].Gold + " gold in exchange.");
+                            Console.WriteLine("Come back after you have finished, so you'll get " + Fighter.Fighters[i].NPCs[j].Gold + " gold as a reward for your troubles.");
                             Fighter.Fighters[i].NPCs[j].HasTalked = true;
                         }
                         else

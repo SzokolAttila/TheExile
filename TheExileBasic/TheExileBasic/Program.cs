@@ -33,7 +33,7 @@ namespace TheExileBasic
             Enemy golem = new Enemy(2480, 50, "Golem", 250, new int[] { 11, 23 }, start.Map);
             Enemy ent = new Enemy(400, 60, "Ent", 100, new int[] { 13, 46 }, start.Map);
 
-            NPC villageChief = new NPC("Village Chief", "enemy", "The Golem keeps my village in fear, please defend us from it!", "Thank you for saving my village, mighty warrior!", start.Map, new int[] { 5, 5 }, 1000, questEnemy: golem);
+            NPC villageChief = new NPC("the village chief", "enemy", "The Golem keeps my village in fear, please defend us from it!", "Thank you for saving my village, mighty warrior!", start.Map, new int[] { 5, 5 }, 1000, questEnemy: golem);
             NPC erwin = new NPC("Erwin", "place", "By the way...you'd better visit that isle!", "So, how was the island?", start.Map, new int[] { 13, 8 }, 300, new int[] { 5, 16 }, new int[] { 7, 19 });
 
             Menus.Header();
