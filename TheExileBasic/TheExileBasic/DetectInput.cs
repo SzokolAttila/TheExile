@@ -32,7 +32,7 @@ namespace TheExileBasic
 
                         start.View(fighter);
                         Positions.Check();
-                        
+                        Map = false;
                     }
                     break;
 
