@@ -16,9 +16,9 @@ namespace TheExileBasic
         static void Main(string[] args)
         {
             ConsoleKey input;
-            bool help = false;
-            bool map = false;
-            bool inventory = false;
+            DetectInput.Help = false;
+            DetectInput.Map = false;
+            DetectInput.Inventory = false;
             string path = "map.txt";
 
             StreamReader sr = new StreamReader(path);
@@ -49,10 +49,10 @@ namespace TheExileBasic
 
                 Input.ClearKeyBuffer();
                 input = Console.ReadKey(true).Key;
-                if (!(map || help || inventory))
+                if (!(DetectInput.Map || DetectInput.Help || DetectInput.Inventory))
                     start.Map = fighter.Move(input, start.Map);
 
-                DetectInput.FindKeyPressed(input, map, help, inventory, start, fighter, potion);
+                DetectInput.FindKeyPressed(input, start, fighter, potion);
 
                 if (fighter.Moved)
                 {
@@ -61,9 +61,6 @@ namespace TheExileBasic
 
                     start.View(fighter);
                     Positions.Check();
-                    help = false;
-                    inventory = false;
-                    map = false;
                 }
 
                 if (fighter.HP <= 0 || input == ConsoleKey.X)

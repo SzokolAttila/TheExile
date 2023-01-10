@@ -9,17 +9,22 @@ namespace TheExileBasic
 {
     internal class DetectInput
     {
-        public static void FindKeyPressed (ConsoleKey input, bool map, bool help, bool inventory, Room start, Fighter fighter, Item potion)
+        public static bool Inventory { get; set; }
+        public static bool Map { get; set; }
+        public static bool Help { get; set; }
+        public static void FindKeyPressed (ConsoleKey input, Room start, Fighter fighter, Item potion)
         {
             switch (input)
             {
                 case ConsoleKey.M:
                     Menus.Header();
 
-                    if (!map)
+                    if (!Map)
                     {
                         start.Show(start.Map);
-                        Menus.CloseMenu(map, inventory, help);
+                        Map = true;
+                        Inventory = false;
+                        Help = false;
                     }
                     else
                     {
@@ -27,17 +32,19 @@ namespace TheExileBasic
 
                         start.View(fighter);
                         Positions.Check();
-                        map = false;
+                        
                     }
                     break;
 
                 case ConsoleKey.I:
                     Menus.Header();
 
-                    if (!inventory)
+                    if (!Inventory)
                     {
                         Menus.Inventory(fighter);
-                        Menus.CloseMenu(inventory, map, help);
+                        Inventory = true;
+                        Map = false;
+                        Help = false;
                     }
                     else
                     {
@@ -45,17 +52,19 @@ namespace TheExileBasic
 
                         start.View(fighter);
                         Positions.Check();
-                        inventory = false;
+                        Inventory = false;
                     }
                     break;
 
                 case ConsoleKey.H:
                     Menus.Header();
 
-                    if (!help)
+                    if (!Help)
                     {
                         Menus.Help();
-                        Menus.CloseMenu(help, inventory, map);
+                        Help = true;
+                        Map = false;
+                        Inventory = false;
                     }
                     else
                     {
@@ -63,15 +72,18 @@ namespace TheExileBasic
 
                         start.View(fighter);
                         Positions.Check();
-                        help = false;
+                        Help = false;
                     }
                     break;
 
                 case ConsoleKey.U:
-                    Menus.Header();
-                    Menus.CheckHeal(potion, fighter);
-                    start.View(fighter);
-                    Positions.Check();
+                    if (!(Inventory || Map || Help))
+                    {
+                        Menus.Header();
+                        Menus.CheckHeal(potion, fighter);
+                        start.View(fighter);
+                        Positions.Check();
+                    }
                     break;
 
                 case ConsoleKey.E:
@@ -79,16 +91,16 @@ namespace TheExileBasic
                     break;
 
                 case ConsoleKey.Escape:
-                    if (inventory || map || help)
+                    if (Inventory || Map || Help)
                     {
                         Menus.Header();
                         Menus.PressH();
 
                         start.View(fighter);
                         Positions.Check();
-                        inventory = false;
-                        map = false;
-                        help = false;
+                        Inventory = false;
+                        Map = false;
+                        Help = false;
                     }
                     break;
 

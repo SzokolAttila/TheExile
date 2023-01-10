@@ -8,12 +8,6 @@ namespace TheExileBasic
 {
     internal class Menus
     {
-        public static void CloseMenu(bool primary, bool secondary1, bool secondary2)
-        {
-            primary = true;
-            secondary1 = false;
-            secondary2 = false;
-        }
         public static void Help()
         {
             Console.Write("Movement: ");
