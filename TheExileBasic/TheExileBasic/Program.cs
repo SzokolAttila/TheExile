@@ -27,7 +27,7 @@ namespace TheExileBasic
 
             Item dagger = new Item("Weapon", "Dagger", "Common", "A dull-edged dagger", new int[] { 6, 17 }, start.Map, attack: 24);
             Item boat = new Item("Utility", "Boat", "Rare", "The key of exploration, a boat. Now, set sails and ride waves!", new int[] { 13, 47 }, start.Map);
-            Item potion = new Item("Consumable", "Heal", "Rare", "Replenishes a small amount of missing health; Cannot exceed max HP.", new int[] { 7, 19 }, start.Map, heal: 200);
+            Item potion = new Item("Consumable - Heal", "Small Potion", "Rare", "Replenishes a small amount of missing health; Cannot exceed max HP.", new int[] { 7, 19 }, start.Map, heal: 200);
             Item glasses = new Item("Utility", "A pair of glasses", "Uncommon", "To see further than the tip of your toes", new int[] { 31, 5 }, start.Map, range: 1); ;
 
             Enemy golem = new Enemy(2480, 50, "Golem", 250, new int[] { 11, 23 }, start.Map);
@@ -39,9 +39,18 @@ namespace TheExileBasic
             Menus.Header();
             Console.Write("Press ");
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.Write("WASD");
+            Console.Write("SPACE");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write(" to start");
+
+            do
+            {
+                input = Console.ReadKey(true).Key;
+            } while (input != ConsoleKey.Spacebar);
+
+            Menus.Header();
+            Menus.PressH();
+            start.View(fighter);
 
             do
             {
@@ -52,7 +61,7 @@ namespace TheExileBasic
                 if (!(DetectInput.Map || DetectInput.Help || DetectInput.Inventory))
                     start.Map = fighter.Move(input, start.Map);
 
-                DetectInput.FindKeyPressed(input, start, fighter, potion);
+                DetectInput.FindKeyPressed(input, start, fighter);
 
                 if (fighter.Moved)
                 {

@@ -9,7 +9,7 @@ namespace TheExileBasic
     internal class LevelSystem
     {
         public const int Levels = 10;
-        public static int[] LevelCap = new int[Levels] {100, 300, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000};
+        public static int[] LevelCap = new int[Levels] {100, 200, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000};
 
         public static void CheckLevel (Fighter fighter)
         {
@@ -22,9 +22,9 @@ namespace TheExileBasic
             Console.WriteLine("\nLevel up!");
             fighter.XP -= LevelCap[fighter.Level - 1];
             fighter.Level += 1;
-            fighter.Attack += Convert.ToInt32(Math.Ceiling(fighter.Attack * 0.05));
-            int bonusHP = Convert.ToInt32(Math.Ceiling(fighter.MaxHP * 0.05));
-            fighter.MaxHP += bonusHP;
+            fighter.BaseAttack += Convert.ToInt32(Math.Ceiling(fighter.BaseAttack * 0.05));
+            int bonusHP = Convert.ToInt32(Math.Ceiling(fighter.BaseHP * 0.05));
+            fighter.BaseHP += bonusHP;
             fighter.HP += bonusHP;
         }
     }

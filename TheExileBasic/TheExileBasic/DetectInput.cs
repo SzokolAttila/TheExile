@@ -12,7 +12,7 @@ namespace TheExileBasic
         public static bool Inventory { get; set; }
         public static bool Map { get; set; }
         public static bool Help { get; set; }
-        public static void FindKeyPressed (ConsoleKey input, Room start, Fighter fighter, Item potion)
+        public static void FindKeyPressed (ConsoleKey input, Room start, Fighter fighter)
         {
             switch (input)
             {
@@ -77,17 +77,19 @@ namespace TheExileBasic
                     break;
 
                 case ConsoleKey.U:
-                    if (!(Inventory || Map || Help))
-                    {
-                        Menus.Header();
-                        Menus.CheckHeal(potion, fighter);
-                        start.View(fighter);
-                        Positions.Check();
-                    }
+                    Consumable.CheckConsumable(fighter, null);
                     break;
 
                 case ConsoleKey.E:
                     Interactions.Interact();
+                    break;
+
+                case ConsoleKey.DownArrow:
+                    Consumable.CheckConsumable(fighter, "down");
+                    break;
+
+                case ConsoleKey.UpArrow:
+                    Consumable.CheckConsumable(fighter, "up");
                     break;
 
                 case ConsoleKey.Escape:

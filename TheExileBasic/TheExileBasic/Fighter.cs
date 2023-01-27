@@ -14,21 +14,58 @@ namespace TheExileBasic
         public List<Item> Items { get; set; }
         public List<NPC> NPCs { get; set; }
         public List<Item> Inventory { get; set; }
-        public List<string> Names { get; set; }
         public List<Item> Consumables { get; set; }
-        public List<string> ConsumableNames { get; set; }
         public string Temp { get; set; }
         public int Range { get; set; }
         public int[] Pos { get; set; }
         public int Attack { get; set; }
-        public int HP { get; set; }
-        public int MaxHP { get; set; }
+        private int baseAttack;
+        public int BaseAttack
+        {
+            get { return baseAttack; }
+            set
+            {
+                Attack += value - baseAttack;
+                baseAttack = value;
+            }
+        }
+        private int baseHP;
+        public int BaseHP
+        {
+            get { return baseHP; }
+            set
+            {
+                MaxHP += value - BaseHP;
+                baseHP = value;
+            }
+        }
+        private int hp;
+        public int HP {
+            get { return hp; }
+            set
+            {
+                if (value > this.MaxHP)
+                    this.hp = this.MaxHP;
+                else this.hp = value;
+            }
+        }
+        private int maxHP;
+        public int MaxHP { 
+            get { return maxHP; }
+            set
+            {
+                hp += value - maxHP;
+                maxHP = value;
+            }
+                
+        }
         public int Gold { get; set; }
         public int XP { get; set; }
         public int OverallXP { get; set; }
         public int Level { get; set; }
         public bool Moved { get; set; }
         private int[] PrevPos { get; set; }
+        public Item CurrentConsumable { get; set; }
 
         public Fighter(int range, int[] pos, int attack, int hp, string[,] room)
         {
@@ -37,16 +74,15 @@ namespace TheExileBasic
             this.Moved = true;
             this.Inventory = new List<Item>();
             this.Consumables = new List<Item>();
-            this.Names = new List<string>();
-            this.ConsumableNames = new List<string>();
             this.Range = range;
             this.Pos = pos;
-            this.Attack = attack;
+            this.BaseAttack = attack;
             this.OverallXP = 0;
-            this.HP = hp;
             this.XP = 0;
-            this.MaxHP = hp;
+            this.BaseHP = hp;
+            this.hp = hp;
             this.PrevPos = pos;
+            CurrentConsumable = null;
             Enemies = new List<Enemy>();
             Items = new List<Item>();
             NPCs = new List<NPC>();
@@ -110,7 +146,7 @@ namespace TheExileBasic
             if (this.Pos[index] + directionY + directionX >= 0 && this.Pos[index] + directionX + directionY < room.GetLength(index))
             {
                 string nextTile = room[this.Pos[0] + directionY, this.Pos[1] + directionX];
-                if (nextTile != "M" && nextTile != "?" && (nextTile != "~" || this.Names.Contains("Boat")) && nextTile != " " && (this.Temp != "!" || (this.Pos[0] + directionY == this.PrevPos[0] && this.Pos[1] + directionX == this.PrevPos[1])))
+                if (nextTile != "M" && nextTile != "?" && (nextTile != "~" || this.Inventory.Exists(x => x.Name == "Boat")) && nextTile != " " && (this.Temp != "!" || (this.Pos[0] + directionY == this.PrevPos[0] && this.Pos[1] + directionX == this.PrevPos[1])))
                     this.Pos[index] += directionX + directionY;
             }
         }

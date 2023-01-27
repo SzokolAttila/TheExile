@@ -40,50 +40,7 @@ namespace TheExileBasic
                 {
                     if (Fighter.Fighters[i].Pos[0] == Fighter.Fighters[i].Items[j].Pos[0] && Fighter.Fighters[i].Pos[1] == Fighter.Fighters[i].Items[j].Pos[1])
                     {
-                        Console.Write($"\nName:\t");
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        Console.Write(Fighter.Fighters[i].Items[j].Name);
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("\nType:\t");
-                        Console.ForegroundColor = ConsoleColor.DarkCyan;
-                        Console.Write(Fighter.Fighters[i].Items[j].Type);
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write("\nRarity:\t");
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.Write(Fighter.Fighters[i].Items[j].Rarity);
-                        Console.ForegroundColor = ConsoleColor.White;
-                        if (Fighter.Fighters[i].Items[j].HP > 0)
-                        {
-                            Console.Write("\nHP:\t");
-                            Console.ForegroundColor = ConsoleColor.DarkGreen;
-                            Console.Write(Fighter.Fighters[i].Items[j].HP);
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                        if (Fighter.Fighters[i].Items[j].Attack > 0)
-                        {
-                            Console.Write("\nAttack:\t");
-                            Console.ForegroundColor = ConsoleColor.DarkRed;
-                            Console.Write(Fighter.Fighters[i].Items[j].Attack);
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                        if (Fighter.Fighters[i].Items[j].Heal > 0)
-                        {
-                            Console.Write("\nHeal:\t");
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.Write(Fighter.Fighters[i].Items[j].Heal);
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                        if (Fighter.Fighters[i].Items[j].Range > 0)
-                        {
-                            Console.Write("\nRange:\t");
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.Write(Fighter.Fighters[i].Items[j].Range);
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                        Console.Write("\nDescription:\t");
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.Write(Fighter.Fighters[i].Items[j].Desc);
-                        Console.ForegroundColor = ConsoleColor.White;
+                        Menus.ItemStats(Fighter.Fighters[i].Items[j]);
                         Console.Write("\nPress ");
                         Console.ForegroundColor = ConsoleColor.Magenta;
                         Console.Write("E");

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TheExileBasic
@@ -109,7 +110,7 @@ namespace TheExileBasic
         public static void Combat(string name, int mHP, int mMaxHP, int pHP, int pMaxHP, int attack, int mAttack)
         {
             Console.WriteLine("Now it's time to fight!");
-            Console.WriteLine("\t" + name + "\t\t\t\t" + "You:\nAttack:\t" + mAttack + "\t\t\t\t"  + attack + "\nHP:\t" + mHP + "/" + mMaxHP + "\t\t\t\t" + pHP + "/" + pMaxHP +"\n");
+            Console.WriteLine("\t" + name + "\t\t\t\t" + "You:\nAttack:\t" + mAttack + "\t\t\t\t" + attack + "\nHP:\t" + mHP + "/" + mMaxHP + "\t\t\t\t" + pHP + "/" + pMaxHP + "\n");
         }
 
         public static void PressH()
@@ -144,30 +145,63 @@ namespace TheExileBasic
             Console.WriteLine(fighter.XP + " / " + LevelSystem.LevelCap[fighter.Level - 1]);
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Inventory:\t");
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine(String.Join(", ", fighter.Names));
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine(String.Join(", ", fighter.Inventory.Select(x => x.Name)));
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Consumables:\t");
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine(String.Join(", ", fighter.ConsumableNames));
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine(String.Join(", ", fighter.Consumables.Select(x => x.Name)));
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public static void CheckHeal (Item potion, Fighter fighter)
+        public static void ItemStats (Item item)
         {
-            if (fighter.Consumables.Contains(potion))
-                UseHeal(potion, fighter);
-            else Console.WriteLine("No heal potions available!\n");
+            Console.Write($"\nName:\t");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.Write(item.Name);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("\nType:\t");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.Write(item.Type);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("\nRarity:\t");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write(item.Rarity);
+            Console.ForegroundColor = ConsoleColor.White;
+            if (item.HP > 0)
+            {
+                Console.Write("\nHP:\t");
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.Write(item.HP);
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            if (item.Attack > 0)
+            {
+                Console.Write("\nAttack:\t");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.Write(item.Attack);
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            if (item.Heal > 0)
+            {
+                Console.Write("\nHeal:\t");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(item.Heal);
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            if (item.Range > 0)
+            {
+                Console.Write("\nRange:\t");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write(item.Range);
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            Console.Write("\nDescription:\t");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(item.Desc);
+            Console.ForegroundColor = ConsoleColor.White;
         }
-
-        private static void UseHeal (Item potion, Fighter fighter)
-        {
-            if (fighter.HP + potion.Heal > fighter.MaxHP)
-                fighter.HP = fighter.MaxHP;
-            else fighter.HP += potion.Heal;
-            Console.WriteLine($"Healed player for {potion.Heal} HP.\n");
-            fighter.Consumables.Remove(potion);
-            fighter.ConsumableNames.Remove(potion.Name);
-        }
+        
+     
     }
 }

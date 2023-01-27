@@ -54,15 +54,14 @@ namespace TheExileBasic
                         Fighter.Fighters[i].MaxHP += Fighter.Fighters[i].Items[j].HP;
                         Fighter.Fighters[i].Range += Fighter.Fighters[i].Items[j].Range;
                         Fighter.Fighters[i].Temp = "0";
-                        if (Fighter.Fighters[i].Items[j].Type == "Consumable")
+                        if (Fighter.Fighters[i].Items[j].Type.Contains("Consumable"))
                         {
                             Fighter.Fighters[i].Consumables.Add(Fighter.Fighters[i].Items[j]);
-                            Fighter.Fighters[i].ConsumableNames.Add(Fighter.Fighters[i].Items[j].Name);
+                            Fighter.Fighters[i].CurrentConsumable = Fighter.Fighters[i].Items[j];
                         }
                         else
                         {
                             Fighter.Fighters[i].Inventory.Add(Fighter.Fighters[i].Items[j]);
-                            Fighter.Fighters[i].Names.Add(Fighter.Fighters[i].Items[j].Name);
                         }
                         Fighter.Fighters[i].Items.Remove(Fighter.Fighters[i].Items[j]);
                     }
